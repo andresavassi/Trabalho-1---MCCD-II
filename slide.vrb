@@ -1,34 +1,23 @@
-\frametitle{Amostrador Poisson via Aceitação/ Rejeição}
+\frametitle{Amostrador Bell via Transformação Inversa}
 \begin{columns}
-		
-		\begin{column}{0.85\textwidth}
-			\begin{lstlisting}[language=R]
-	poisson_ar_1 <- function(lambda, kmax = 30) {
-		f_pois <- function(k, lambda) {
-			return(exp(-lambda) * lambda^k / factorial(k))
-		}	
-		fmax <- f_pois(floor(lambda), lambda)
-		repeat {	
-			y <- sample(0:kmax, 1)
-			fy <- f_pois(y, lambda)		
-			gy <- 1 / (kmax + 1)				
-			u <- runif(1)
-			if (u < fy / (fmax * gy)) {
-				return(y)
-			}
-		}
-	}
-	poisson_ar <- function(lambda, n = 1000, kmax = 30) {
-		replicate(n, poisson_ar_1(lambda, kmax))
-	}
-			\end{lstlisting}
-		\end{column}
-		
-		\begin{column}{0.15\textwidth}
-		\href{https://github.com/andresavassi/MCCD2-Exercicios/tree/main/Slides%20-%20Trabalho%201/poisson_ar.R}{\beamergotobutton{Código.R}}
-		
-		\vspace{0.5cm}
-		
-		\end{column}
-	
-	\end{columns}
+			
+			\begin{column}{0.85\textwidth}
+				\begin{lstlisting}[language=R]
+					n <- 10000
+					
+					u <- runif(n)
+					
+					x_inv <- qnorm(u, mean = 0, sd = 1)
+					
+							
+				\end{lstlisting}
+			\end{column}
+			
+			\begin{column}{0.15\textwidth}
+				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bell_inversa.R}{\beamergotobutton{Código.R}}
+				
+				\vspace{0.5cm}
+				
+			\end{column}
+			
+		\end{columns}

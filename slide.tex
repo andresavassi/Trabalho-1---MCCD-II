@@ -121,7 +121,7 @@
 		\end{column}
 		
 		\begin{column}{0.15\textwidth}
-			\href{https://github.com/andresavassi/MCCD2-Exercicios/tree/main/Slides%20-%20Trabalho%201/poisson_inversa.R}{\beamergotobutton{Código.R}}
+			\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/poisson_inversa.R}{\beamergotobutton{Código.R}}
 			
 			\vspace{0.5cm}
 
@@ -167,7 +167,7 @@
 		\end{column}
 		
 		\begin{column}{0.15\textwidth}
-		\href{https://github.com/andresavassi/MCCD2-Exercicios/tree/main/Slides%20-%20Trabalho%201/poisson_ar.R}{\beamergotobutton{Código.R}}
+		\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/poisson_ar.R}{\beamergotobutton{Código.R}}
 		
 		\vspace{0.5cm}
 		
@@ -185,9 +185,9 @@
 		\ onde $r$ é o total de sucessos e $p$ é a probabilidade desses sucessos.
 		Note que $Y \sim BN(r,p)$ possui esperança e variância a seguir:
 		$$
-		\mathbb{E}(Y) = \frac{r}{p} ;\ Var(Y) = \frac{r(1-p)}{p^2}
+		\mathbb{E}(Y) = \frac{r}{p}\ ;\ Var(Y) = \frac{r(1-p)}{p^2}
 		$$
-		Teste, teste
+		
 		
 	\end{frame}
 
@@ -206,12 +206,45 @@
 		
 		A média e variâncida de $Y \sim Bell(\theta)$ é:
 		$$
-		\mathbb{E}(Y) = \theta e^{\theta}
-		\;
+		\mathbb{E}(Y) = \theta e^{\theta}\ ;\ 
 		Var(Y) = \theta(1+\theta)e^{\theta}
 		$$
 		
 	\end{frame}
+	
+	\begin{frame}[fragile]{Amostrador Bell via Transformação Inversa}
+		\begin{columns}
+			
+			\begin{column}{0.85\textwidth}
+				\begin{lstlisting}[language=R]
+					n <- 10000
+					
+					u <- runif(n)
+					
+					x_inv <- qnorm(u, mean = 0, sd = 1)
+					
+							
+				\end{lstlisting}
+			\end{column}
+			
+			\begin{column}{0.15\textwidth}
+				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bell_inversa.R}{\beamergotobutton{Código.R}}
+				
+				\vspace{0.5cm}
+				
+			\end{column}
+			
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Gráficos - Bell Inversa}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.8\textwidth]{graf_bell_inv.png}
+		\label{fig:boxplot}
+	\end{figure}
+\end{frame}
+	
 
 \section{Implementação}
 	
