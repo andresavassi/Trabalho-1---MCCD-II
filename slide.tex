@@ -241,9 +241,42 @@
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.8\textwidth]{graf_bell_inv.png}
-		\label{fig:boxplot}
 	\end{figure}
 \end{frame}
+
+	\begin{frame}[fragile]{Amostrador Bell via Box Muller}
+		\begin{columns}
+			
+			\begin{column}{0.85\textwidth}
+				\begin{lstlisting}[language=R]
+					n <- 10000
+					
+					u1 <- runif(n)
+					u2 <- runif(n)
+					
+					z1 <- sqrt(-2 * log(u1)) * cos(2 * pi * u2)
+					z2 <- sqrt(-2 * log(u1)) * sin(2 * pi * u2)
+					
+					x_bm <- c(z1, z2)
+				\end{lstlisting}
+			\end{column}
+			
+			\begin{column}{0.15\textwidth}
+				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bell_bm.R}{\beamergotobutton{Código.R}}
+				
+				\vspace{0.5cm}
+				
+			\end{column}
+			
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Gráficos - Bell Box Muller}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.8\textwidth]{graf_bell_bm.png}
+		\end{figure}
+	\end{frame}
 	
 
 \section{Implementação}

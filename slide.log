@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.9.18)  3 OCT 2025 15:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.9.18)  3 OCT 2025 18:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1010,11 +1010,25 @@ Overfull \vbox (14.51775pt too high) detected at line 177
 <figuras/graf_bell_inv.png, id=616, 481.8pt x 361.35pt>
 File: figuras/graf_bell_inv.png Graphic file (type png)
 <use figuras/graf_bell_inv.png>
-Package pdftex.def Info: figuras/graf_bell_inv.png  used on input line 246.
+Package pdftex.def Info: figuras/graf_bell_inv.png  used on input line 245.
 (pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
  [12
 
  <./figuras/graf_bell_inv.png (PNG copy)>]
+\openout4 = `slide.vrb'.
+
+
+(./slide.vrb) [13
+
+]
+<figuras/graf_bell_bm.png, id=723, 481.8pt x 361.35pt>
+File: figuras/graf_bell_bm.png Graphic file (type png)
+<use figuras/graf_bell_bm.png>
+Package pdftex.def Info: figuras/graf_bell_bm.png  used on input line 279.
+(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
+ [14
+
+ <./figuras/graf_bell_bm.png (PNG copy)>]
 \tf@nav=\write6
 \openout6 = `slide.nav'.
 
@@ -1024,8 +1038,7 @@ Package pdftex.def Info: figuras/graf_bell_inv.png  used on input line 246.
 \tf@snm=\write8
 \openout8 = `slide.snm'.
 
-
-(./slide.aux)
+ (./slide.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -1034,10 +1047,10 @@ Package rerunfilecheck Info: File `slide.out' has not changed.
 (rerunfilecheck)             Checksum: BE627EB92B32BC19E1945DB2A18AAD6C;213.
  ) 
 Here is how much of TeX's memory you used:
- 24292 strings out of 474222
- 454192 string characters out of 5748733
+ 24312 strings out of 474222
+ 454541 string characters out of 5748733
  2127975 words of memory out of 5000000
- 46034 multiletter control sequences out of 15000+600000
+ 46049 multiletter control sequences out of 15000+600000
  565448 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,19n,123p,381b,2204s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1055,10 +1068,10 @@ sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 sy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 
-Output written on slide.pdf (12 pages, 236499 bytes).
+Output written on slide.pdf (14 pages, 273602 bytes).
 PDF statistics:
- 720 PDF objects out of 1000 (max. 8388607)
- 496 compressed objects within 5 object streams
- 28 named destinations out of 1000 (max. 500000)
- 92 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 829 PDF objects out of 1000 (max. 8388607)
+ 568 compressed objects within 6 object streams
+ 31 named destinations out of 1000 (max. 500000)
+ 97 words of extra memory for PDF output out of 10000 (max. 10000000)
 
