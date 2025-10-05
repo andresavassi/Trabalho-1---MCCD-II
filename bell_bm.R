@@ -10,6 +10,8 @@ z2 <- sqrt(-2 * log(u1)) * sin(2 * pi * u2)
 
 # Junta as duas amostras
 x_bm <- c(z1, z2)
+
+
 dir.create("figuras", showWarnings = FALSE)
 png("figuras/graf_bell_bm.png", width = 800, height = 600, res = 120)
 # Histograma

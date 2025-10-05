@@ -1,25 +1,48 @@
-\frametitle{Amostrador Bell via Box Muller}
+\frametitle{Amostrador Bell via Transformação Inversa}
 \begin{columns}
 			
 			\begin{column}{0.85\textwidth}
 				\begin{lstlisting}[language=R]
-					n <- 10000
-					
-					u1 <- runif(n)
-					u2 <- runif(n)
-					
-					z1 <- sqrt(-2 * log(u1)) * cos(2 * pi * u2)
-					z2 <- sqrt(-2 * log(u1)) * sin(2 * pi * u2)
-					
-					x_bm <- c(z1, z2)
+					MC <- 1000
+					nsize <- 100
+					library(foreach)
+					library(dplyr)
+					library(tibble)
+					library(doParallel)	
+					set.seed(9999)
+					df_teste <- data.frame(
+					x1 = sample(c(0, 1), 10, replace = T, prob = c(0.7, 0.3)),
+					x2 = rnorm(10),
+					x3 = rnorm(10),
+					x4 = sample(c(0, 1), 10, replace = T, prob = c(0.2, 0.8))
+					)
+					X_teste <- model.matrix(~., df_teste)
+					results <- data.frame()	
 				\end{lstlisting}
 			\end{column}
 			
 			\begin{column}{0.15\textwidth}
-				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bell_bm.R}{\beamergotobutton{Código.R}}
+				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bell_inversa.R}{\beamergotobutton{Código.R}}
 				
 				\vspace{0.5cm}
 				
 			\end{column}
+			\\
+			\begin{lstlisting}[language=R]
+				run_MC <- function(r, nsize) {
+					set.seed(r)
+					n <- nsize
+					betas <- c(1.2, 0.25, -0.08, 0.15, -0.12)
+					
+					df <- data.frame(
+					x1 = sample(c(0, 1), n, replace = T, prob = c(0.7, 0.3)),
+					x2 = rnorm(n),
+					x3 = rnorm(n),
+					x4 = sample(c(0, 1), n, replace = T, prob = c(0.2, 0.8))
+					)
+					X <- model.matrix(~., df)
+					eta <- X %*% betas
+					mu <- exp(eta)
+			\end{lstlisting}
 			
 		\end{columns}
