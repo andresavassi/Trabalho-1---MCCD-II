@@ -44,9 +44,12 @@ tab %>%
     font_size = 11
   )
 
-
+dir.create("figuras", showWarnings = FALSE)
+png("figuras/graf_poisson_inv", width = 800, height = 600, res = 120)
 ## Graficamente
 freq_rel <- prop.table(table(amostra))
 par(mar = c(4, 4, 1, 1))
 plot(freq_rel, main = "", xlab = "x", ylab = "Frequência relativa (prob)")
 points(0:max(amostra), dpois(0:max(amostra), lambda), col = 2, cex = 1.5)
+
+dev.off()

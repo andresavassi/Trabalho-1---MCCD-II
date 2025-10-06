@@ -42,12 +42,18 @@ amostra_sir <- gerar_bn_sir(n = n_amostra, r = r_param, p = p_param, m = m_candi
 print("Amostra gerada pelo Método SIR (primeiros 10 valores):")
 print(head(amostra_sir, 10))
 
+
+dir.create("figuras", showWarnings = FALSE)
+png("figuras/graf_bn_sir.png", width = 800, height = 600, res = 120)
 # Histograma para validar
 hist(amostra_sir,
+     col = "darkblue",
      breaks = seq(-0.5, max(amostra_sir) + 0.5, 1),
      main = "Amostragem por Importância (SIR)",
      xlab = "Valor Gerado", ylab = "Densidade", freq = FALSE)
 # Adiciona a PMF teórica para comparação
 points(0:max(amostra_sir), dnbinom(0:max(amostra_sir), size = r_param, prob = p_param),
-       col = "darkgreen", pch = 19)
-legend("topright", legend = "Prob. Teórica", col = "darkgreen", pch = 19)
+       col = "red", pch = 19)
+legend("topright", legend = "Prob. Teórica", col = "red", pch = 19)
+
+dev.off()

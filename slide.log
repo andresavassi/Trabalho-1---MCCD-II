@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.9.18)  5 OCT 2025 20:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.17)  5 OCT 2025 21:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -971,12 +971,12 @@ Overfull \vbox (14.51775pt too high) detected at line 131
 [6
 
 ]
-<figuras/tbl_pois_inversa.png, id=433, 707.64375pt x 544.0325pt>
+<figuras/tbl_pois_inversa.png, id=569, 707.64375pt x 544.0325pt>
 File: figuras/tbl_pois_inversa.png Graphic file (type png)
 <use figuras/tbl_pois_inversa.png>
 Package pdftex.def Info: figuras/tbl_pois_inversa.png  used on input line 139.
 (pdftex.def)             Requested size: 276.559pt x 212.62009pt.
-<figuras/graf_pois_inversa.png, id=434, 532.23843pt x 409.53pt>
+<figuras/graf_pois_inversa.png, id=570, 532.23843pt x 409.53pt>
 File: figuras/graf_pois_inversa.png Graphic file (type png)
 <use figuras/graf_pois_inversa.png>
 Package pdftex.def Info: figuras/graf_pois_inversa.png  used on input line 139.
@@ -991,76 +991,114 @@ Overfull \vbox (6.90178pt too high) detected at line 139
  <./figuras/tbl_pois_inversa.png> <./figuras/graf_pois_inversa.png (PNG copy)>]
 \openout4 = `slide.vrb'.
 
- (./slide.vrb)
-Overfull \vbox (14.51775pt too high) detected at line 177
- []
+ (./slide.vrb) [8
 
-[8
+]
+<figuras/graf_poisson_ar.png, id=747, 481.8pt x 361.35pt>
+File: figuras/graf_poisson_ar.png Graphic file (type png)
+<use figuras/graf_poisson_ar.png>
+Package pdftex.def Info: figuras/graf_poisson_ar.png  used on input line 182.
+(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
+ [9
 
-] [9
-
-] [10
+ <./figuras/graf_poisson_ar.png (PNG copy)>] [10
 
 ]
 \openout4 = `slide.vrb'.
 
- (./slide.vrb) [11
+
+(./slide.vrb)
+Overfull \vbox (14.51775pt too high) detected at line 233
+ []
+
+[11
 
 ]
-<figuras/graf_bell_inv.png, id=755, 481.8pt x 361.35pt>
-File: figuras/graf_bell_inv.png Graphic file (type png)
-<use figuras/graf_bell_inv.png>
-Package pdftex.def Info: figuras/graf_bell_inv.png  used on input line 245.
+<figuras/graf_bn_inv.png, id=999, 481.8pt x 361.35pt>
+File: figuras/graf_bn_inv.png Graphic file (type png)
+<use figuras/graf_bn_inv.png>
+Package pdftex.def Info: figuras/graf_bn_inv.png  used on input line 240.
 (pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
  [12
+
+ <./figuras/graf_bn_inv.png (PNG copy)>]
+\openout4 = `slide.vrb'.
+
+ (./slide.vrb)
+Overfull \vbox (14.51775pt too high) detected at line 276
+ []
+
+[13
+
+]
+<figuras/graf_bn_sir.png, id=1176, 481.8pt x 361.35pt>
+File: figuras/graf_bn_sir.png Graphic file (type png)
+<use figuras/graf_bn_sir.png>
+Package pdftex.def Info: figuras/graf_bn_sir.png  used on input line 283.
+(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
+ [14
+
+ <./figuras/graf_bn_sir.png (PNG copy)>]
+\openout4 = `slide.vrb'.
+
+ (./slide.vrb) [15
+
+]
+\openout4 = `slide.vrb'.
+
+
+(./slide.vrb) [16
+
+]
+<figuras/graf_bn_ar.png, id=1452, 481.8pt x 361.35pt>
+File: figuras/graf_bn_ar.png Graphic file (type png)
+<use figuras/graf_bn_ar.png>
+Package pdftex.def Info: figuras/graf_bn_ar.png  used on input line 337.
+(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
+ [17
+
+ <./figuras/graf_bn_ar.png (PNG copy)>] [18
+
+]
+\openout4 = `slide.vrb'.
+
+ (./slide.vrb) [19
+
+]
+<figuras/graf_bell_inv.png, id=1704, 481.8pt x 361.35pt>
+File: figuras/graf_bell_inv.png Graphic file (type png)
+<use figuras/graf_bell_inv.png>
+Package pdftex.def Info: figuras/graf_bell_inv.png  used on input line 389.
+(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
+ [20
 
  <./figuras/graf_bell_inv.png (PNG copy)>]
 \openout4 = `slide.vrb'.
 
-
-(./slide.vrb) [13
+ (./slide.vrb) [21
 
 ]
-<figuras/graf_bell_bm.png, id=887, 481.8pt x 361.35pt>
+<figuras/graf_bell_bm.png, id=1880, 481.8pt x 361.35pt>
 File: figuras/graf_bell_bm.png Graphic file (type png)
 <use figuras/graf_bell_bm.png>
-Package pdftex.def Info: figuras/graf_bell_bm.png  used on input line 279.
+Package pdftex.def Info: figuras/graf_bell_bm.png  used on input line 423.
 (pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
- [14
+
+[22
 
  <./figuras/graf_bell_bm.png (PNG copy)>]
 \openout4 = `slide.vrb'.
 
- (./slide.vrb
-
-! LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.30 			\\
-          
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (254.94048pt too wide) detected at line 48
-[][][] $[]$[][][][][][][][] $[]$[][][][][][][]|
+ (./slide.vrb)
+Overfull \vbox (3.51775pt too high) detected at line 458
  []
 
-)
-Overfull \vbox (3.51775pt too high) detected at line 331
- []
-
-[15
+[23
 
 ]
-File: figuras/graf_bell_inv.png Graphic file (type png)
-<use figuras/graf_bell_inv.png>
-Package pdftex.def Info: figuras/graf_bell_inv.png  used on input line 338.
-(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
- [16
+\openout4 = `slide.vrb'.
+
+ (./slide.vrb) [24
 
 ]
 \tf@nav=\write6
@@ -1081,31 +1119,34 @@ Package rerunfilecheck Info: File `slide.out' has not changed.
 (rerunfilecheck)             Checksum: 2FD43401F709C9710E89DADE6C49A9A6;327.
  ) 
 Here is how much of TeX's memory you used:
- 24353 strings out of 474222
- 454900 string characters out of 5748733
- 2237975 words of memory out of 5000000
- 46083 multiletter control sequences out of 15000+600000
+ 24455 strings out of 474222
+ 456550 string characters out of 5748733
+ 2122975 words of memory out of 5000000
+ 46158 multiletter control sequences out of 15000+600000
  565448 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,19n,123p,381b,2204s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 
-Output written on slide.pdf (16 pages, 285562 bytes).
+pdfTeX warning (dest): name{Navigation25} has been referenced but does not exis
+t, replaced by a fixed one
+
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on slide.pdf (24 pages, 440832 bytes).
 PDF statistics:
- 1127 PDF objects out of 1200 (max. 8388607)
- 724 compressed objects within 8 object streams
- 36 named destinations out of 1000 (max. 500000)
- 105 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2204 PDF objects out of 2487 (max. 8388607)
+ 1270 compressed objects within 13 object streams
+ 53 named destinations out of 1000 (max. 500000)
+ 125 words of extra memory for PDF output out of 10000 (max. 10000000)
 

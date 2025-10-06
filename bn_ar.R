@@ -49,11 +49,16 @@ print("Amostra gerada pelo Método da Rejeição (primeiros 10 valores):")
 print(head(amostra_rejeicao, 10))
 
 # Histograma para validar
+dir.create("figuras", showWarnings = FALSE)
+png("figuras/graf_bn_ar.png", width = 800, height = 600, res = 120)
 hist(amostra_rejeicao,
+     col = "darkblue",
      breaks = seq(-0.5, max(amostra_rejeicao) + 0.5, 1),
      main = "Método da Aceitação e Rejeição",
      xlab = "Valor Gerado", ylab = "Densidade", freq = FALSE)
 # Adiciona a PMF teórica para comparação
 points(0:max(amostra_rejeicao), dnbinom(0:max(amostra_rejeicao), size = r_param, prob = p_param),
-       col = "blue", pch = 19)
-legend("topright", legend = "Prob. Teórica", col = "blue", pch = 19)
+       col = "red", pch = 19)
+legend("topright", legend = "Prob. Teórica", col = "red", pch = 19)
+
+dev.off()
