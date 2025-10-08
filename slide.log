@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.17)  5 OCT 2025 21:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.17)  8 OCT 2025 12:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -758,11 +758,11 @@ File: lstlang3.sty 2023/02/27 1.9 listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/beamerinnerthemerounded.sty))
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 28.
+(hyperref)                removing `\\' on input line 29.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 28.
+(hyperref)                removing `\\' on input line 29.
 
 (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
@@ -772,24 +772,24 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 (./slide.aux)
 \openout1 = `slide.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -847,64 +847,64 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 53.
+Package hyperref Info: Link coloring OFF on input line 54.
 
 (./slide.out) (./slide.out)
 \@outlinefile=\write5
 \openout5 = `slide.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 53.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 54.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 53.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 54.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 53.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 53.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 53.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 53.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 53.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 54.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 53.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 53.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 53.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 54.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 53.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 53.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 53.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 54.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 53.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 53.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 54.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 53.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 54.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 53.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 53.
+(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 53.
+(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 53.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 53.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 54.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 53.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 53.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 54.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 54.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
 (Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 5
-3.
+4.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/cmss/b/it --> OT1/mathkerncmss/m/sl on input line 5
-3.
+4.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 53.
+ut line 54.
 
 (/usr/share/texlive/texmf-dist/tex/latex/translator/translator-basic-dictionary
 -English.dict
@@ -940,20 +940,20 @@ Dictionary: translator-theorem-dictionary, Language: English
 ] [4
 
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 93.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 94.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 93.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 94.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inp
-ut line 93.
+ut line 94.
 
 (/usr/share/texlive/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/ma
@@ -965,140 +965,89 @@ thkerncmss.
 \openout4 = `slide.vrb'.
 
  (./slide.vrb)
-Overfull \vbox (14.51775pt too high) detected at line 131
+Overfull \vbox (14.51775pt too high) detected at line 132
  []
 
 [6
 
 ]
-<figuras/tbl_pois_inversa.png, id=569, 707.64375pt x 544.0325pt>
-File: figuras/tbl_pois_inversa.png Graphic file (type png)
-<use figuras/tbl_pois_inversa.png>
-Package pdftex.def Info: figuras/tbl_pois_inversa.png  used on input line 139.
-(pdftex.def)             Requested size: 276.559pt x 212.62009pt.
-<figuras/graf_pois_inversa.png, id=570, 532.23843pt x 409.53pt>
-File: figuras/graf_pois_inversa.png Graphic file (type png)
-<use figuras/graf_pois_inversa.png>
-Package pdftex.def Info: figuras/graf_pois_inversa.png  used on input line 139.
+<figuras/graf_poisson.png, id=478, 481.8pt x 361.35pt>
+File: figuras/graf_poisson.png Graphic file (type png)
+<use figuras/graf_poisson.png>
+Package pdftex.def Info: figuras/graf_poisson.png  used on input line 139.
+(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
+ [7
 
-(pdftex.def)             Requested size: 184.3758pt x 141.8629pt.
-
-Overfull \vbox (6.90178pt too high) detected at line 139
- []
-
-[7
-
- <./figuras/tbl_pois_inversa.png> <./figuras/graf_pois_inversa.png (PNG copy)>]
-\openout4 = `slide.vrb'.
-
- (./slide.vrb) [8
+ <./figuras/graf_poisson.png (PNG copy)>] [8
 
 ]
-<figuras/graf_poisson_ar.png, id=747, 481.8pt x 361.35pt>
-File: figuras/graf_poisson_ar.png Graphic file (type png)
-<use figuras/graf_poisson_ar.png>
-Package pdftex.def Info: figuras/graf_poisson_ar.png  used on input line 182.
-(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
- [9
+\openout4 = `slide.vrb'.
 
- <./figuras/graf_poisson_ar.png (PNG copy)>] [10
+ (./slide.vrb) [9
 
 ]
 \openout4 = `slide.vrb'.
 
 
-(./slide.vrb)
-Overfull \vbox (14.51775pt too high) detected at line 233
- []
-
-[11
+(./slide.vrb) [10
 
 ]
-<figuras/graf_bn_inv.png, id=999, 481.8pt x 361.35pt>
-File: figuras/graf_bn_inv.png Graphic file (type png)
-<use figuras/graf_bn_inv.png>
-Package pdftex.def Info: figuras/graf_bn_inv.png  used on input line 240.
+<figuras/graf_bn.png, id=771, 481.8pt x 361.35pt>
+File: figuras/graf_bn.png Graphic file (type png)
+<use figuras/graf_bn.png>
+Package pdftex.def Info: figuras/graf_bn.png  used on input line 214.
 (pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
- [12
+ [11
 
- <./figuras/graf_bn_inv.png (PNG copy)>]
+ <./figuras/graf_bn.png (PNG copy)>] [12
+
+]
 \openout4 = `slide.vrb'.
 
  (./slide.vrb)
-Overfull \vbox (14.51775pt too high) detected at line 276
- []
-
 [13
 
 ]
-<figuras/graf_bn_sir.png, id=1176, 481.8pt x 361.35pt>
-File: figuras/graf_bn_sir.png Graphic file (type png)
-<use figuras/graf_bn_sir.png>
-Package pdftex.def Info: figuras/graf_bn_sir.png  used on input line 283.
-(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
- [14
-
- <./figuras/graf_bn_sir.png (PNG copy)>]
-\openout4 = `slide.vrb'.
-
- (./slide.vrb) [15
-
-]
-\openout4 = `slide.vrb'.
-
-
-(./slide.vrb) [16
-
-]
-<figuras/graf_bn_ar.png, id=1452, 481.8pt x 361.35pt>
-File: figuras/graf_bn_ar.png Graphic file (type png)
-<use figuras/graf_bn_ar.png>
-Package pdftex.def Info: figuras/graf_bn_ar.png  used on input line 337.
-(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
- [17
-
- <./figuras/graf_bn_ar.png (PNG copy)>] [18
-
-]
-\openout4 = `slide.vrb'.
-
- (./slide.vrb) [19
-
-]
-<figuras/graf_bell_inv.png, id=1704, 481.8pt x 361.35pt>
-File: figuras/graf_bell_inv.png Graphic file (type png)
-<use figuras/graf_bell_inv.png>
-Package pdftex.def Info: figuras/graf_bell_inv.png  used on input line 389.
-(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
- [20
-
- <./figuras/graf_bell_inv.png (PNG copy)>]
-\openout4 = `slide.vrb'.
-
- (./slide.vrb) [21
-
-]
-<figuras/graf_bell_bm.png, id=1880, 481.8pt x 361.35pt>
-File: figuras/graf_bell_bm.png Graphic file (type png)
-<use figuras/graf_bell_bm.png>
-Package pdftex.def Info: figuras/graf_bell_bm.png  used on input line 423.
-(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
-
-[22
-
- <./figuras/graf_bell_bm.png (PNG copy)>]
 \openout4 = `slide.vrb'.
 
  (./slide.vrb)
-Overfull \vbox (3.51775pt too high) detected at line 458
+Overfull \vbox (9.51775pt too high) detected at line 290
  []
 
-[23
+[14
+
+]
+<figuras/graf_bell.png, id=1063, 481.8pt x 361.35pt>
+File: figuras/graf_bell.png Graphic file (type png)
+<use figuras/graf_bell.png>
+Package pdftex.def Info: figuras/graf_bell.png  used on input line 297.
+(pdftex.def)             Requested size: 245.83282pt x 184.37428pt.
+ [15
+
+ <./figuras/graf_bell.png (PNG copy)>]
+\openout4 = `slide.vrb'.
+
+ (./slide.vrb)
+Overfull \vbox (14.51775pt too high) detected at line 336
+ []
+
+[16
 
 ]
 \openout4 = `slide.vrb'.
 
- (./slide.vrb) [24
+ (./slide.vrb)
+Overfull \vbox (14.51775pt too high) detected at line 372
+ []
+
+[17
+
+]
+\openout4 = `slide.vrb'.
+
+ (./slide.vrb) [18
+
+] [19
 
 ]
 \tf@nav=\write6
@@ -1119,34 +1068,31 @@ Package rerunfilecheck Info: File `slide.out' has not changed.
 (rerunfilecheck)             Checksum: 2FD43401F709C9710E89DADE6C49A9A6;327.
  ) 
 Here is how much of TeX's memory you used:
- 24455 strings out of 474222
- 456550 string characters out of 5748733
- 2122975 words of memory out of 5000000
- 46158 multiletter control sequences out of 15000+600000
+ 24361 strings out of 474222
+ 454606 string characters out of 5748733
+ 2139975 words of memory out of 5000000
+ 46079 multiletter control sequences out of 15000+600000
  565448 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,19n,123p,381b,2204s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 
-pdfTeX warning (dest): name{Navigation25} has been referenced but does not exis
-t, replaced by a fixed one
-
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on slide.pdf (24 pages, 440832 bytes).
+Output written on slide.pdf (19 pages, 340161 bytes).
 PDF statistics:
- 2204 PDF objects out of 2487 (max. 8388607)
- 1270 compressed objects within 13 object streams
- 53 named destinations out of 1000 (max. 500000)
- 125 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1489 PDF objects out of 1728 (max. 8388607)
+ 905 compressed objects within 10 object streams
+ 42 named destinations out of 1000 (max. 500000)
+ 100 words of extra memory for PDF output out of 10000 (max. 10000000)
 

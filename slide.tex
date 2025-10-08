@@ -4,6 +4,7 @@
 \usepackage{xcolor} % necessário para as cores no listings
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage[percent]{overpic}
 
 
@@ -95,33 +96,33 @@
 	% Segunda Seção e outro Slide
 
 	
-\begin{frame}[fragile]{Amostrador Poisson via Transformação Inversa}
+\begin{frame}[fragile]{Amostrador Poisson via Aceitação e Rejeição}
 	\begin{columns}
 		
 		\begin{column}{0.85\textwidth}
 			\begin{lstlisting}[language=R]
-	library(dplyr)
-	library(kableExtra)
-	rpois_aux <- function(lambda) {
-		u <- runif(1, 0, 1)
-		i <- 0
-		pr <- exp(-lambda)
-		Fx = pr
-		while (u >= Fx) {
-			pr <- pr * lambda / (i + 1)
-			Fx <- Fx + pr
-			i <- i + 1
+	poisson_ar_1 <- function(lambda) {
+		f_pois <- function(k, lambda) {
+			return(exp(k * log(lambda) - lambda - lgamma(k + 1)))
 		}
-		return(i)
-	}
-	rpoisson <- function(n, lambda) {
-		replicate(n, expr = rpois_aux(lambda), simplify = TRUE)
+		fmax <- f_pois(floor(lambda), lambda)
+		kmax <- qpois(0.9999, lambda = 5)
+		repeat {
+			y <- sample(0:kmax, 1)
+			fy <- f_pois(y, lambda)
+			gy <- 1 / (kmax + 1)
+			u <- runif(1)
+			if (u < fy / (fmax)) {
+				return(y)
+			}}}
+	poisson_ar <- function(lambda, n = 1) {
+		replicate(n, poisson_ar_1(lambda))
 	}		
 			\end{lstlisting}
 		\end{column}
 		
 		\begin{column}{0.15\textwidth}
-			\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/poisson_inversa.R}{\beamergotobutton{Código.R}}
+			\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/rpoisson.R}{\beamergotobutton{Código.R}}
 			
 			\vspace{0.5cm}
 
@@ -130,56 +131,14 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Resultados - Poisson Inversa}
-	\centering
-	\begin{overpic}[width=0.9\textwidth]{tbl_pois_inversa.png}
-		% coloca o gráfico por cima
-		\put(0,0){\includegraphics[width=0.6\textwidth]{graf_pois_inversa.png}}
-	\end{overpic}
-\end{frame}
-
-
-
-\begin{frame}[fragile]{Amostrador Poisson via Aceitação/ Rejeição}
-	\begin{columns}
-		
-		\begin{column}{0.85\textwidth}
-			\begin{lstlisting}[language=R]
-	set.seed(20252)
-	rpois_ar <- function(lambda) {
-		p <- 1 / (1 + lambda)
-		f <- function(k) exp(-lambda) * lambda^k / factorial(k)
-		g <- function(k) p * (1 - p)^k
-		ks <- 0: (lambda*10 + 10)
-		M <- max(f(ks) / g(ks))		
-		repeat {
-			X <- rgeom(1, prob = p)
-			U <- runif(1)
-			if (U <= f(X) / (M * g(X))) {
-				return(X)
-			}
-		}
-	}	
-			\end{lstlisting}
-		\end{column}
-		
-		\begin{column}{0.15\textwidth}
-		\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/poisson_ar.R}{\beamergotobutton{Código.R}}
-		
-		\vspace{0.5cm}
-		
-		\end{column}
-	
-	\end{columns}
-\end{frame}
-
-
-	\begin{frame}{Gráficos - Poisson Aceitação e Rejeição}
+	\begin{frame}{Gráficos - Poisson AR}
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.8\textwidth]{graf_poisson_ar.png}
+		\includegraphics[width=0.8\textwidth]{graf_poisson.png}
 	\end{figure}
 \end{frame}
+
+
 
 
 
@@ -196,34 +155,32 @@
 	\end{frame}
 	
 	
-	\begin{frame}[fragile]{Amostrador BN via Transformação Inversa}
+	\begin{frame}[fragile]{Amostrador BN via Amostragem por Importância}
 			\begin{columns}
 			
 			\begin{column}{0.85\textwidth}
 				\begin{lstlisting}[language=R]
-		r_param <- 4      
-		p_param <- 0.5    
-		n_amostra <- 1000 
-		gerar_bn_inversa_aux <- function(r, p) {
-			u <- runif(1) 				
-			i <- 0
-			pr <- p^r      
-			Fx <- pr       
-			while (u >= Fx) {
-				pr <- pr * (i + r) / (i + 1) * (1 - p)
-				Fx <- Fx + pr
-				i <- i + 1
+		rnegbinom <- function(m, n, mu, theta) {
+			f_negbinom <- function(x, mu, theta) {
+
+				log_f <- lgamma(x + theta) -
+				lgamma(theta) -
+				lgamma(x + 1) +
+				theta * log(theta / (mu + theta)) +
+				x * log(mu / (mu + theta))
+				return(exp(log_f))
 			}
-			return(i)
-		}
-		gerar_bn_inversa <- function(n, r, p) {
-			return(replicate(n, gerar_bn_inversa_aux(r, p)))
-		}
+			
+			g_pois <- function(k, lambda) {
+				return(exp(k * log(lambda) - lambda - lgamma(k + 1)))
+			}
+
 				\end{lstlisting}
 			\end{column}
 			
+		
 			\begin{column}{0.15\textwidth}
-				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bn_inversa.R}{\beamergotobutton{Código.R}}
+				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/rnegbin.R}{\beamergotobutton{Código.R}}
 				
 				\vspace{0.5cm}
 				
@@ -232,110 +189,31 @@
 		\end{columns}
 		\end{frame}
 		
-			\begin{frame}{Gráficos - BN Transformação Inversa}
-			\begin{figure}[h]
-				\centering
-				\includegraphics[width=0.8\textwidth]{graf_bn_inv.png}
-			\end{figure}
-		\end{frame}
-		
 		\begin{frame}[fragile]{Amostrador BN via Amostragem por Importância}
-			\begin{columns}
-				
-				\begin{column}{0.85\textwidth}
-					\begin{lstlisting}[language=R]
-			r_param <- 4      
-			p_param <- 0.5    
-			n_amostra <- 1000 
-			m_candidatos <- 20000 
-			gerar_bn_sir <- function(n, r, p, m) {
-				media_bn <- r * (1 - p) / p
-				p_g <- 1 / (1 + media_bn)
-				candidatos <- rgeom(m, prob = p_g)
-				pesos_proposta <- dgeom(candidatos, prob = p_g)
-				pesos_importancia <- pesos_alvo / pesos_proposta
-				amostra_final <- sample(
-				x = candidatos, 
-				size = n, 
-				replace = TRUE, 
-				prob = pesos_importancia
-				)
-				return(amostra_final)
-			}
-					\end{lstlisting}
-				\end{column}
-				
-				\begin{column}{0.15\textwidth}
-					\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bn_sir.R}{\beamergotobutton{Código.R}}
-					
-					\vspace{0.5cm}
-					
-				\end{column}
-				
-			\end{columns}
-		\end{frame}
-		
-					\begin{frame}{Gráficos - BN Amostragem por Importância}
-			\begin{figure}[h]
-				\centering
-				\includegraphics[width=0.8\textwidth]{graf_bn_sir.png}
-			\end{figure}
-		\end{frame}
-		
-				\begin{frame}[fragile]{Amostrador BN via Aceitação e Rejeição}
-			\begin{columns}
-				
-				\begin{column}{0.85\textwidth}
-					\begin{lstlisting}[language=R]
-			r_param <- 4
-			p_param <- 0.5
-			n_amostra <- 1000 
-			gerar_bn_rejeicao <- function(n, r, p) {
-				media_bn <- r * (1 - p) / p
-				p_g <- 1 / (1 + media_bn) 
-				k_vals <- 0:100 
-				razao_pq <- dnbinom(k_vals, size = r, prob = p) / dgeom(k_vals, prob = p_g)
-				c <- max(razao_pq, na.rm = TRUE) * 1.01 
-				amostra <- numeric(n)
-				contador_aceitos <- 0
-					\end{lstlisting}
-				\end{column}
-				
-				\begin{column}{0.15\textwidth}
-					\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bn_ar.R}{\beamergotobutton{Código.R}}
-					
-					\vspace{0.5cm}
-					
-				\end{column}
-				
-			\end{columns}
-		\end{frame}
-		
-		\begin{frame}[fragile]{Amostrador BN via Aceitação e Rejeição}
 			\begin{lstlisting}
-		while (contador_aceitos < n) {
-			w <- rgeom(1, prob = p_g)
-			u <- runif(1)
-			p_w <- dnbinom(w, size = r, prob = p)
-			q_w <- dgeom(w, prob = p_g)
-			if (u < p_w / (c * q_w)) {
-				contador_aceitos <- contador_aceitos + 1
-				amostra[contador_aceitos] <- w
-			}
-		}
+		source("rpoisson.R")
+		
+		y <- poisson_ar(n = m, lambda = 2 * mu)
+		
+		pesos <- f_negbinom(y, mu = mu, theta = theta) / g_pois(y, lambda = 2 * mu)
+		pesos <- pesos / sum(pesos)
+		
+		amostra <- sample(y, n, F, pesos)
+		
 		return(amostra)
 		}
 			\end{lstlisting}
+			
+			\end{frame}
+		
+			\begin{frame}{Gráficos - BN Amostragem por Importância}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=0.8\textwidth]{graf_bn.png}
+			\end{figure}
 		\end{frame}
-
-
-		\begin{frame}{Gráficos - BN Aceitação e Rejeição}
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=0.8\textwidth]{graf_bn_ar.png}
-		\end{figure}
-	\end{frame}
-
+		
+		
 	\begin{frame}{Gerando amostras de distribuições - Bell}
 		Segue que a densidade da distribuição Bell é descrita por:
 		$$
@@ -356,23 +234,30 @@
 		
 	\end{frame}
 	
-	\begin{frame}[fragile]{Amostrador Bell via Transformação Inversa}
+	
+		\begin{frame}[fragile]{Amostrador Bell via Transformação Inversa}
 		\begin{columns}
 			
 			\begin{column}{0.85\textwidth}
 				\begin{lstlisting}[language=R]
-					n <- 10000
-					
-					u <- runif(n)
-					
-					x_inv <- qnorm(u, mean = 0, sd = 1)
-					
-							
+		# Importado de bellreg
+		dbell <- function(x, theta, log = FALSE) {
+			Bx <- c()
+			for (i in 1:length(x)) {
+				Bx[i] <- numbers::bell(x[i])
+			}
+			lf <- x * log(theta) - exp(theta) + 1 + log(Bx) - lgamma(x + 1)
+			if (log == TRUE) {
+				return(lf)
+			} else {
+				return(exp(lf))
+			}
+		}		
 				\end{lstlisting}
 			\end{column}
 			
 			\begin{column}{0.15\textwidth}
-				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bell_inversa.R}{\beamergotobutton{Código.R}}
+				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/rbell.R}{\beamergotobutton{Código.R}}
 				
 				\vspace{0.5cm}
 				
@@ -380,70 +265,46 @@
 			
 		\end{columns}
 	\end{frame}
+	
+	\begin{frame}[fragile]{Amostrador Bell via Transformação Inversa}
+		\begin{lstlisting}		
+		rbell_aux <- function(theta) {
+			sapply(theta, function(t) {
+				u <- runif(1, 0, 1)
+				i <- 0
+				pr <- dbell(0, t); Fx <- pr
+				while (u >= Fx) {
+					i <- i + 1
+					pr <- dbell(i, t)
+					Fx <- Fx + pr}
+				return(i)
+			})}
+		rbell <- function(n, theta) {
+			if (length(theta) == 1) {
+				return(replicate(n, expr = rbell_aux(theta), simplify = TRUE))
+			} else {
+				return(rbell_aux(theta))
+			}}
+		\end{lstlisting}
+		
+		\end{frame}
 	
 	\begin{frame}{Gráficos - Bell Inversa}
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.8\textwidth]{graf_bell_inv.png}
+		\includegraphics[width=0.8\textwidth]{graf_bell.png}
 	\end{figure}
 \end{frame}
 
-	\begin{frame}[fragile]{Amostrador Bell via Box Muller}
-		\begin{columns}
-			
-			\begin{column}{0.85\textwidth}
-				\begin{lstlisting}[language=R]
-					n <- 10000
-					
-					u1 <- runif(n)
-					u2 <- runif(n)
-					
-					z1 <- sqrt(-2 * log(u1)) * cos(2 * pi * u2)
-					z2 <- sqrt(-2 * log(u1)) * sin(2 * pi * u2)
-					
-					x_bm <- c(z1, z2)
-				\end{lstlisting}
-			\end{column}
-			
-			\begin{column}{0.15\textwidth}
-				\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/bell_bm.R}{\beamergotobutton{Código.R}}
-				
-				\vspace{0.5cm}
-				
-			\end{column}
-			
-		\end{columns}
-	\end{frame}
-	
-	\begin{frame}{Gráficos - Bell Box Muller}
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=0.8\textwidth]{graf_bell_bm.png}
-		\end{figure}
-	\end{frame}
 	
 
 	\section{Implementação}
-	\begin{frame}[fragile]{Código}
+	\begin{frame}[fragile]{Monte Carlo - Poisson}
 		\begin{columns}
 			
 			\begin{column}{0.85\textwidth}
 				\begin{lstlisting}[language=R]
-					MC <- 1000
-					nsize <- 100
-					library(foreach)
-					library(dplyr)
-					library(tibble)
-					library(doParallel)	
-					set.seed(9999)
-					df_teste <- data.frame(
-					x1 = sample(c(0, 1), 10, replace = T, prob = c(0.7, 0.3)),
-					x2 = rnorm(10),
-					x3 = rnorm(10),
-					x4 = sample(c(0, 1), 10, replace = T, prob = c(0.2, 0.8))
-					)
-					X_teste <- model.matrix(~., df_teste)
-					results <- data.frame()	
+
 				\end{lstlisting}
 			\end{column}
 			
@@ -456,6 +317,8 @@
 			
 		\end{columns}
 	\end{frame}
+	
+	
 	
 	\begin{frame}[fragile]{Código}
 				\begin{lstlisting}[language=R]
@@ -474,6 +337,36 @@
 				eta <- X %*% betas
 				mu <- exp(eta)
 			\end{lstlisting}
+		\end{frame}
+		
+		\begin{frame}
+			\resizebox{\textwidth}{!}{%
+		\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
+			\hline
+			Tamanho da Amostra & Parâmetro & Valor Real & Estimativa Média & Erro Padrão & Desvio Padrão & Viés Relativo & Limite Inferior & Limite Superior & Cobertura\\
+			\hline
+			100 & y1 & 3.362 & 3.354 & 0.014 & 0.386 & -0.225 & 2.673 & 4.211 & 0.950\\
+			\hline
+			100 & y10 & 3.798 & 3.790 & 0.010 & 0.378 & -0.210 & 3.119 & 4.607 & 0.958\\
+			\hline
+			100 & y2 & 3.491 & 3.492 & 0.020 & 0.481 & 0.029 & 2.664 & 4.581 & 0.952\\
+			\hline
+			100 & y3 & 5.447 & 5.497 & 0.025 & 0.914 & 0.934 & 4.036 & 7.494 & 0.937\\
+			\hline
+			100 & y4 & 2.513 & 2.507 & 0.014 & 0.285 & -0.259 & 1.998 & 3.146 & 0.952\\
+			\hline
+			100 & y5 & 3.980 & 3.997 & 0.029 & 0.682 & 0.424 & 2.873 & 5.565 & 0.949\\
+			\hline
+			100 & y6 & 4.220 & 4.217 & 0.011 & 0.440 & -0.057 & 3.447 & 5.162 & 0.950\\
+			\hline
+			100 & y7 & 3.097 & 3.093 & 0.012 & 0.334 & -0.151 & 2.501 & 3.825 & 0.956\\
+			\hline
+			100 & y8 & 4.512 & 4.514 & 0.021 & 0.658 & 0.039 & 3.401 & 5.998 & 0.959\\
+			\hline
+			100 & y9 & 3.845 & 3.840 & 0.011 & 0.392 & -0.148 & 3.143 & 4.692 & 0.958\\
+			\hline
+		\end{tabular}
+	}
 		\end{frame}
 	
 

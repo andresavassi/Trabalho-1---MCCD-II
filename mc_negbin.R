@@ -11,6 +11,7 @@ library(ggplot2)
 library(lamW)
 
 source("rpoisson.R")
+source("rnegbin.R")
 
 # ------------------- Gera teste
 set.seed(9999)
@@ -27,6 +28,7 @@ run_MC <- function(r, teste, nsize) {
   n <- nsize
   # Parametros reais
   betas <- c(1.2, 0.25, -0.08, 0.15, -0.12)
+  theta <- 5
   X_teste <- model.matrix(~., teste)
   eta_teste_real <- X_teste %*% betas
   fitted_teste_real <- exp(eta_teste_real)
@@ -45,7 +47,7 @@ run_MC <- function(r, teste, nsize) {
   mu <- exp(eta)
 
   # Gerando y
-  Y <- sapply(mu, poisson_ar_1)
+  Y <- sapply(mu, function(t) rnegbinom(100, 1, t, theta))
 
   # Ajusta modelo com dados simulados
   df <- cbind(df, Y)
@@ -182,7 +184,7 @@ p1 <- ggplot(tb, aes(x = par, y = RB, fill = nsize)) +
   scale_fill_brewer(palette = "Set2") +
   labs(
     title = "Distribuição do Viés Relativo (RB) por Parâmetro",
-    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Poisson): Comparação entre tamanhos de amostra",
+    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Binomial Negativa): Comparação entre tamanhos de amostra",
     x = "Parâmetro",
     y = "Viés Relativo (RB)",
     fill = "Tamanho da Amostra"
@@ -206,7 +208,7 @@ p2 <- ggplot(tb, aes(x = par, y = RB, fill = par)) +
   facet_wrap(~nsize, ncol = 2) +
   labs(
     title = "Viés Relativo (RB) por Parâmetro e Tamanho da Amostra",
-    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Poisson): Boxplots separados por tamanho de amostra",
+    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Binomial Negativa): Boxplots separados por tamanho de amostra",
     x = "Parâmetro",
     y = "Viés Relativo (RB)"
   ) +
@@ -225,7 +227,7 @@ p2 <- ggplot(tb, aes(x = par, y = RB, fill = par)) +
 
 # Salva os gráficos em .png
 
-ggsave("grafico_poisson1.png", plot = p1, width = 8, height = 6, dpi = 300)
-ggsave("grafico_poisson2.png", plot = p2, width = 8, height = 6, dpi = 300)
+ggsave("grafico_negbin1.png", plot = p1, width = 8, height = 6, dpi = 300)
+ggsave("grafico_negbin2.png", plot = p2, width = 8, height = 6, dpi = 300)
 
 # --------------------------

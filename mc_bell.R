@@ -8,9 +8,8 @@ library(tibble)
 library(foreach)
 library(doParallel)
 library(ggplot2)
-library(lamW)
 
-source("rpoisson.R")
+source("rbell.R")
 
 # ------------------- Gera teste
 set.seed(9999)
@@ -45,7 +44,7 @@ run_MC <- function(r, teste, nsize) {
   mu <- exp(eta)
 
   # Gerando y
-  Y <- sapply(mu, poisson_ar_1)
+  Y <- rbell(1, lamW::lambertW0(mu))
 
   # Ajusta modelo com dados simulados
   df <- cbind(df, Y)
@@ -152,7 +151,7 @@ tbl <- tb |>
 
 tabela_kbl <- tbl[11:20, ] %>%
   kable(
-    format = "latex",
+    format = "html",
     caption = NULL,
     col.names = c(
       "Tamanho da Amostra",
@@ -176,13 +175,13 @@ tabela_kbl <- tbl[11:20, ] %>%
 # ----------------------
 # Viés Relativo
 
-p1 <- ggplot(tb, aes(x = par, y = RB, fill = nsize)) +
+p1 <- ggplot(df, aes(x = par, y = RB, fill = nsize)) +
   geom_boxplot(alpha = 0.7, outlier.color = "red", outlier.shape = 21) +
   geom_hline(yintercept = 0, col = "blue", linetype = "dashed", linewidth = 1) +
   scale_fill_brewer(palette = "Set2") +
   labs(
     title = "Distribuição do Viés Relativo (RB) por Parâmetro",
-    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Poisson): Comparação entre tamanhos de amostra",
+    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Bel): Comparação entre tamanhos de amostra",
     x = "Parâmetro",
     y = "Viés Relativo (RB)",
     fill = "Tamanho da Amostra"
@@ -199,14 +198,14 @@ p1 <- ggplot(tb, aes(x = par, y = RB, fill = nsize)) +
 # -----------------------
 
 # Viés relativo dividido em tamanhos amostrais
-p2 <- ggplot(tb, aes(x = par, y = RB, fill = par)) +
+p2 <- ggplot(df, aes(x = par, y = RB, fill = par)) +
   geom_boxplot(alpha = 0.8, outlier.color = "red", outlier.shape = 21) +
   geom_hline(yintercept = 0, col = "blue", linetype = "dashed", linewidth = 1) +
   scale_fill_brewer(palette = "Pastel1") +
   facet_wrap(~nsize, ncol = 2) +
   labs(
     title = "Viés Relativo (RB) por Parâmetro e Tamanho da Amostra",
-    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Poisson): Boxplots separados por tamanho de amostra",
+    subtitle = "Para Modelo log-linear Poisson (Variável resposta gerada da Bell): Boxplots separados por tamanho de amostra",
     x = "Parâmetro",
     y = "Viés Relativo (RB)"
   ) +
@@ -225,7 +224,7 @@ p2 <- ggplot(tb, aes(x = par, y = RB, fill = par)) +
 
 # Salva os gráficos em .png
 
-ggsave("grafico_poisson1.png", plot = p1, width = 8, height = 6, dpi = 300)
-ggsave("grafico_poisson2.png", plot = p2, width = 8, height = 6, dpi = 300)
+ggsave("grafico_bell1.png", plot = p1, width = 8, height = 6, dpi = 300)
+ggsave("grafico_bell2.png", plot = p2, width = 8, height = 6, dpi = 300)
 
 # --------------------------
