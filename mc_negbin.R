@@ -28,7 +28,7 @@ run_MC <- function(r, teste, nsize) {
   n <- nsize
   # Parametros reais
   betas <- c(1.2, 0.25, -0.08, 0.15, -0.12)
-  theta <- 5
+  theta <- 2
   X_teste <- model.matrix(~., teste)
   eta_teste_real <- X_teste %*% betas
   fitted_teste_real <- exp(eta_teste_real)
