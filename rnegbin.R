@@ -36,8 +36,8 @@ n <- 10000
 amostra <- rnegbinom(m = m, n = n, mu = mu, theta = theta)
 
 
-#dir.create("figuras", showWarnings = FALSE)
-#png("figuras/graf_bn.png", width = 800, height = 600, res = 120)
+dir.create("figuras", showWarnings = FALSE)
+png("figuras/graf_bn.png", width = 800, height = 600, res = 120)
 # --- Histograma das frequências relativas ---
 hist(amostra,
      breaks = seq(-0.5, max(amostra) + 0.5, 1),
@@ -64,5 +64,5 @@ legend("topright",
        pch = c(15, 19),
        pt.cex = c(1.5, 1.2),
        bty = "n")
-#dev.off()
+dev.off()
 
