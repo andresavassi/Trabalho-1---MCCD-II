@@ -3,7 +3,7 @@ poisson_ar_1 <- function(lambda) {
     return(exp(k * log(lambda) - lambda - lgamma(k + 1)))
   }
   fmax <- f_pois(floor(lambda), lambda)
-  kmax <- qpois(0.9999, lambda = 5)
+  kmax <- qpois(0.9999, lambda = lambda)
   repeat {
     y <- sample(0:kmax, 1)
     fy <- f_pois(y, lambda)
