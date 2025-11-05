@@ -1,0 +1,154 @@
+\documentclass{beamer} % Define a classe do documento como Beamer
+
+\usepackage{listings}
+\usepackage{xcolor} % necessário para as cores no listings
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[percent]{overpic}
+\usepackage{fancyvrb}
+
+\lstset{
+	language=R,
+	basicstyle=\ttfamily\small,
+	keywordstyle=\color{blue},
+	commentstyle=\color{green!50!black},
+	literate={\#}{{\texttt{\#}}}1,  % Processa o # corretamente
+	% ... outras configurações
+}
+
+\usetheme{Madrid}   
+\graphicspath{{figuras/}}  
+
+% Informações do Título
+\title{Simulated Annealing \\ (Recozimento Simulado)}
+\author{}
+\institute{UFMG}
+\date{10/11/2025} % Data da apresentação
+
+% CONFIGURAÇÃO PERSONALIZADA DO RODAPÉ
+\setbeamertemplate{footline}{
+	\leavevmode%
+	\hbox{%
+		% ESQUERDA: "grupo 2"
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
+			\hspace{0.5cm}\textbf{Grupo II}%
+		\end{beamercolorbox}%
+		% CENTRO: "MCCD -2"
+		\begin{beamercolorbox}[wd=.34\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+			\textbf{MCCD - II}%
+		\end{beamercolorbox}%
+		% DIREITA: Número da página (opcional)
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+			\textbf{10/11/2025}
+			\insertpagenumber\hspace{0.5cm}%
+	\end{beamercolorbox}}%
+	\vskip0pt%
+}
+
+% Início do Documento
+\begin{document}
+	
+	% Slide de Título
+	\begin{frame}
+		\titlepage % Gera o slide de título com as informações acima
+	\end{frame}
+	
+	% Sumário (Opcional, mas recomendado)
+	\begin{frame}{Sumário}
+		\tableofcontents % Gera um sumário automático baseado nas seções
+	\end{frame}
+	\footnotesize
+	
+	
+	\section{Simulação de Recozimento}
+	\subsection{Introdução}
+	\begin{frame}{Recozimento Simulado - Introdução}
+	Também chamado de método meta-heurístico, este tem como intuito resolver problemas de otimização de grande complexidade. Este algoritmo foi introduzido por volta de 1980 por três pesquisadores, sendo eles: Kirkpatrick, Gelatt e Vecchi. O método traz soluções sub-ótimas, ou seja, eficientes e sem grande esforço computacional.
+	
+	Tem como objetivo encontrar resultados satisfatórios, ainda que não exatos, sendo que muitas vezes estes resultados são inviáveis e/ou difíceis de serem alcançados.
+	
+	Se enquadra na classe \textit{Markov chain Monte Carlo} (MCMC) e, por ter caráter estocástico alinhado à sua capacidade de escapar de mínimos locais, este é um ótimo candidato para resolução de problemas complexos de otimização.
+	
+	
+	\end{frame}
+	
+	\subsection{Processo de Recozimento}
+	
+	\begin{frame}{Processo de Recozimento}
+	O conceito foi introduzido da ideia de recozimento, onde um sólido é levado para um estado de baixa energia após aumentar sua temperatura.
+	
+	O processo consiste em dua estapas, sendo elas:
+	
+	\begin{itemize}
+	\item "Derretimento" da sua estrutura ao levá-lo a uma temperatura muito elevada.
+	\item Resfriamento esquematizado buscando atingir um estado sólido de energia mínima.
+	\end{itemize}
+	Uma vez em estado líquido as partículas do material exposto são distribuídas de forma aleatória.
+	
+	O estado mínimo de energia só é alcançado com uma temperatura inicial que seja suficientemente alta e um tempo de resfriamento que seja logo o suficiente.
+	\end{frame}
+	
+	
+	\subsection{Aplicabilidade}
+	\begin{frame}{Aplicabilidade}
+	 O algoritmo \textbf{Simulated Annealing} tem aplicabilidade em várias áreas e aqui serão expostas algumas delas:
+	 \begin{itemize}
+	 \item Engenharia de software
+	 \item \textit{Machine Learning}
+	 \item Teoria de filas
+	 \item Processos de manufatura
+	 \item logística e transporte com otimização
+	 \end{itemize}
+	\end{frame}
+	
+	
+	\subsection{Teoria}
+	\begin{frame}{Teoria}
+	 
+	\end{frame}
+	
+	
+	
+	\section{Revisão - Inferência Bayesiana}
+	\subsection{Fundamentos}
+	\begin{frame}{Fundamentos - Inferência Estatística}
+	Busca por estimação a posteriori dos parâmetros $\theta$ condicionado pelos dados observados em $\textbf{y}$. Tem como fórmula, o seguinte:
+	
+	\begin{equation*}
+	 f_{\theta|\textbf{Y}}(\theta|\textbf{y}) =\frac{f_{\theta,\textbf{Y}}(\theta, \textbf{y})}{f_{\textbf{Y}}(\textbf{y})} =\frac{f_{\textbf{y}|\theta}(\textbf{y})f_{\theta}(\theta)}{\int_{0}^{1}f_{\theta,\textbf{Y}}(\theta, \textbf{y}) d\theta}
+	\end{equation*}
+	
+	Onde cada item representa:
+	
+	\begin{itemize}
+	\item $f_{\textbf{y}|\theta}(\textbf{y}) \rightarrow $ função de verossimilhança;
+	\item $f_{\theta}(\theta) \rightarrow $ distribuição a priori;
+	\item $f_{\theta,\textbf{Y}}(\theta, \textbf{y}) \rightarrow $ distribuição conjunta de $\theta$ e $\textbf{Y}$;
+	\item ${f_{\textbf{Y}}(\textbf{y})} \rightarrow $ distribuição preditiva (independente de $\theta$);
+	\item $f_{\theta|\textbf{Y}}(\theta|\textbf{y}) \rightarrow $ distribuição a posteriori.
+	\end{itemize}
+	\end{frame}
+	
+	\subsection{Aproximação Computacional Bayesiana - ABC}
+	\begin{frame}{Approximate Bayesian Computation - ABC}
+	 Tem como ideia central resolver o problema simulando o modelo em vez de se calcular a verossimilhança.
+	 
+	 Sua ideia básica consiste em:
+	 \begin{equation*}
+	  f_{\theta | \textbf{Y}}(\theta | \textbf{y}) \propto \int f_{\textbf{X}| \theta}(\textbf{x}) f_{\theta}(\theta) \delta (\textbf{x} - y) dx
+	 \end{equation*}
+	 
+	 É evidente que $\delta(\textbf{x} -y)$ é um cálculo inviável, portanto se é aplicada uma função de tolerância $exp\{-\rho(x,y)/\varepsilon\}$:
+	 
+	 \begin{equation*}
+	  \pi_{\varepsilon}(\theta, \textbf{x}) \propto f_{\textbf{X}| \theta}(\textbf{x}) f_{\theta}(\theta)exp\{-\rho(x,y)/\varepsilon\}
+	 \end{equation*}
+	 Se a simulação \textbf{x}, portanto estiver próxima de y, será aceita o $\theta$ que neste caso é controlado por $\varepsilon$
+	 
+	\end{frame}
+	
+	
+	
+	
+	\end{document}

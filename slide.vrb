@@ -1,28 +1,30 @@
-\frametitle{Tabelas - MC Bell}
-\resizebox{\textwidth}{!}{%
-		\begin{tabular}{c|c|c|c|c|c|c|c|c|c}
-			\hline
-			Tamanho da Amostra & Parâmetro & Valor Real & Estimativa Média & Erro Padrão & Desvio Padrão & Viés Relativo & Limite Inferior & Limite Superior & Cobertura\\
-			\hline
-			100 & y1 & 3.362 & 3.374 & 0.014 & 0.578 & 0.367 & 2.691 & 4.233 & 0.820\\
-			\hline
-			100 & y10 & 3.798 & 3.785 & 0.010 & 0.568 & -0.326 & 3.116 & 4.601 & 0.812\\
-			\hline
-			100 & y2 & 3.491 & 3.482 & 0.020 & 0.715 & -0.243 & 2.658 & 4.568 & 0.823\\
-			\hline
-			100 & y3 & 5.447 & 5.531 & 0.026 & 1.370 & 1.547 & 4.064 & 7.534 & 0.796\\
-			\hline
-			100 & y4 & 2.513 & 2.530 & 0.014 & 0.422 & 0.676 & 2.018 & 3.174 & 0.824\\
-			\hline
-			100 & y5 & 3.980 & 4.032 & 0.029 & 0.972 & 1.321 & 2.904 & 5.607 & 0.823\\
-			\hline
-			100 & y6 & 4.220 & 4.206 & 0.011 & 0.666 & -0.319 & 3.438 & 5.149 & 0.816\\
-			\hline
-			100 & y7 & 3.097 & 3.113 & 0.012 & 0.506 & 0.506 & 2.519 & 3.848 & 0.815\\
-			\hline
-			100 & y8 & 4.512 & 4.511 & 0.022 & 0.964 & -0.020 & 3.403 & 5.989 & 0.822\\
-			\hline
-			100 & y9 & 3.845 & 3.830 & 0.011 & 0.586 & -0.388 & 3.136 & 4.680 & 0.816\\
-			\hline
-		\end{tabular}
-	}
+\frametitle{Amostrador BN via Amostragem por Importância}
+\begin{columns}
+^^I^^I^^I
+^^I^^I^^I\begin{column}{0.85\textwidth}
+^^I^^I^^I^^I\begin{lstlisting}[language=R]
+rnegbinom <- function(m, n, mu, theta) {
+^^If_negbinom <- function(x, mu, theta) {
+^^I^^Ilog_f <- lgamma(x + theta) -
+^^I^^Ilgamma(theta) -
+^^I^^Ilgamma(x + 1) +
+^^I^^Itheta * log(theta / (mu + theta)) +
+^^I^^Ix * log(mu / (mu + theta))
+^^I^^Ireturn(exp(log_f))
+^^I}
+  g_pois <- function(k, lambda) {
+^^Ireturn(exp(k * log(lambda) - lambda - lgamma(k + 1)))
+}
+
+^^I^^I^^I^^I\end{lstlisting}
+^^I^^I^^I\end{column}
+^^I^^I^^I
+^^I^^I
+^^I^^I^^I\begin{column}{0.15\textwidth}
+^^I^^I^^I^^I\href{https://github.com/andresavassi/Trabalho-1---MCCD-II/blob/main/rnegbin.R}{\beamergotobutton{Código.R}}
+^^I^^I^^I^^I
+^^I^^I^^I^^I\vspace{0.5cm}
+^^I^^I^^I^^I
+^^I^^I^^I\end{column}
+^^I^^I^^I
+^^I^^I\end{columns}
