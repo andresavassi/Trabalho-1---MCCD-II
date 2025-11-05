@@ -1,0 +1,17 @@
+\frametitle{Código}
+\noindent
+^^I{\color{blue} \footnotesize
+^^I^^I\begin{verbatim}
+^^I^^I#bibliotecas
+library(ggplot2); library(dplyr); library(tidyr); library(gridExtra)
+loglik_weibull3 <- function(params, x) {
+  b <- params[1]; g <- params[2]; c <- params[3]
+  if (b <= 0 || g <= 0 || any(x <= c)) {
+    return(-Inf)
+  }
+  z <- (x - c) / g
+  ll <- length(x) * (log(b) - log(g)) + (b - 1) * sum(log(z)) - sum(z^b)
+  return(ll)
+}
+    \end{verbatim}
+^^I}

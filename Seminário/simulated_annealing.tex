@@ -108,47 +108,44 @@
 	 
 	\end{frame}
 	
-	
-	
-	\section{Revisão - Inferência Bayesiana}
-	\subsection{Fundamentos}
-	\begin{frame}{Fundamentos - Inferência Estatística}
-	Busca por estimação a posteriori dos parâmetros $\theta$ condicionado pelos dados observados em $\textbf{y}$. Tem como fórmula, o seguinte:
-	
-	\begin{equation*}
-	 f_{\theta|\textbf{Y}}(\theta|\textbf{y}) =\frac{f_{\theta,\textbf{Y}}(\theta, \textbf{y})}{f_{\textbf{Y}}(\textbf{y})} =\frac{f_{\textbf{y}|\theta}(\textbf{y})f_{\theta}(\theta)}{\int_{0}^{1}f_{\theta,\textbf{Y}}(\theta, \textbf{y}) d\theta}
-	\end{equation*}
-	
-	Onde cada item representa:
-	
-	\begin{itemize}
-	\item $f_{\textbf{y}|\theta}(\textbf{y}) \rightarrow $ função de verossimilhança;
-	\item $f_{\theta}(\theta) \rightarrow $ distribuição a priori;
-	\item $f_{\theta,\textbf{Y}}(\theta, \textbf{y}) \rightarrow $ distribuição conjunta de $\theta$ e $\textbf{Y}$;
-	\item ${f_{\textbf{Y}}(\textbf{y})} \rightarrow $ distribuição preditiva (independente de $\theta$);
-	\item $f_{\theta|\textbf{Y}}(\theta|\textbf{y}) \rightarrow $ distribuição a posteriori.
-	\end{itemize}
+	\subsection{Implementação}
+		
+\begin{frame}[fragile]{Código implementado}
+	\noindent
+	{\color{blue} \footnotesize
+		\begin{verbatim}
+#bibliotecas
+library(ggplot2); library(dplyr); library(tidyr); library(gridExtra)
+
+#log-verossimilhança
+loglik_weibull3 <- function(params, x) {
+  b <- params[1]; g <- params[2]; c <- params[3]
+  if (b <= 0 || g <= 0 || any(x <= c)) {
+    return(-Inf)
+  }
+  z <- (x - c) / g
+  ll <- length(x) * (log(b) - log(g)) + (b - 1) * sum(log(z)) - sum(z^b)
+  return(ll)
+}
+    \end{verbatim}
+	}
 	\end{frame}
 	
-	\subsection{Aproximação Computacional Bayesiana - ABC}
-	\begin{frame}{Approximate Bayesian Computation - ABC}
-	 Tem como ideia central resolver o problema simulando o modelo em vez de se calcular a verossimilhança.
-	 
-	 Sua ideia básica consiste em:
-	 \begin{equation*}
-	  f_{\theta | \textbf{Y}}(\theta | \textbf{y}) \propto \int f_{\textbf{X}| \theta}(\textbf{x}) f_{\theta}(\theta) \delta (\textbf{x} - y) dx
-	 \end{equation*}
-	 
-	 É evidente que $\delta(\textbf{x} -y)$ é um cálculo inviável, portanto se é aplicada uma função de tolerância $exp\{-\rho(x,y)/\varepsilon\}$:
-	 
-	 \begin{equation*}
-	  \pi_{\varepsilon}(\theta, \textbf{x}) \propto f_{\textbf{X}| \theta}(\textbf{x}) f_{\theta}(\theta)exp\{-\rho(x,y)/\varepsilon\}
-	 \end{equation*}
-	 Se a simulação \textbf{x}, portanto estiver próxima de y, será aceita o $\theta$ que neste caso é controlado por $\varepsilon$
-	 
-	\end{frame}
-	
-	
-	
+	\begin{verbatim}
+#bibliotecas
+library(ggplot2); library(dplyr); library(tidyr); library(gridExtra)
+
+#log-verossimilhança
+loglik_weibull3 <- function(params, x) {
+  b <- params[1]; g <- params[2]; c <- params[3]
+  if (b <= 0 || g <= 0 || any(x <= c)) {
+    return(-Inf)
+  }
+  z <- (x - c) / g
+  ll <- length(x) * (log(b) - log(g)) + (b - 1) * sum(log(z)) - sum(z^b)
+  return(ll)
+}
+    \end{verbatim}
+	}
 	
 	\end{document}
