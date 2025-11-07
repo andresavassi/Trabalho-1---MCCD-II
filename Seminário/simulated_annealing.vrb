@@ -1,19 +1,6 @@
-\frametitle{Código implementado}
-\noindent
-^^I{\color{blue} \footnotesize
-^^I^^I\begin{verbatim}
-#bibliotecas
-library(ggplot2); library(dplyr); library(tidyr); library(gridExtra)
-
-#log-verossimilhança
-loglik_weibull3 <- function(params, x) {
-  b <- params[1]; g <- params[2]; c <- params[3]
-  if (b <= 0 || g <= 0 || any(x <= c)) {
-    return(-Inf)
-  }
-  z <- (x - c) / g
-  ll <- length(x) * (log(b) - log(g)) + (b - 1) * sum(log(z)) - sum(z^b)
-  return(ll)
-}
-    \end{verbatim}
-^^I}
+\frametitle{Resultados da Estimação por Recozimento Simulado}
+\framesubtitle{Weibull($\beta =2, \ \eta =2,\ \gamma = 2)$}
+\begin{figure}[h]
+^^I^^I^^I\centering
+^^I^^I^^I\includegraphics[width=0.8\textwidth]{sa_weibull_convergencia_exemplo1.png}
+^^I^^I\end{figure}

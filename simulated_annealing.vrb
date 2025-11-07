@@ -1,0 +1,6 @@
+\frametitle{Resultados da Estimação por Recozimento Simulado}
+\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+\begin{figure}[h]
+^^I^^I^^I\centering
+^^I^^I^^I\includegraphics[width=0.8\textwidth]{sa_weibull_convergencia_exemplo3.png}
+^^I^^I\end{figure}
