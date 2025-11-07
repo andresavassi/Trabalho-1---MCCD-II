@@ -404,26 +404,34 @@ loglik_weibull3 <- function(params, x) {
 \frametitle{Resultados da Estimação por Recozimento Simulado}
 \framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
 
+\begin{table}[ht]
 \centering
-
-% 1. Aplica o menor tamanho de fonte para caber no slide
-\tiny 
-
-% 2. Usa resizebox para forçar a largura total do slide (\linewidth)
+% Opcional: Reduz o tamanho da fonte para caber se for usado em slide
+\tiny
+% Opcional: Força a tabela a ter a largura da linha
 \resizebox{\linewidth}{!}{%
-    \begin{tabular}{lrrrrr} % O formato {lrrrrr} tem 1 coluna de rótulo e 4 de dados
+    \begin{tabular}{lrrrr} % Formato {lrrrr} para 1 coluna de rótulo e 4 de dados
         \toprule
+        % Parâmetros (2, 2, 2)
         \multicolumn{1}{c}{\textbf{Weibull parameters}} & \multicolumn{4}{c}{\textbf{(2, 2, 2)}}\\\\
         \hline
+        % Cabeçalhos das colunas
         \textbf{Measure} & \textbf{2500} & \textbf{1000} & \textbf{500} & \textbf{100} \\
         \midrule
-        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (2.0298, 2.0338, 1.9995) & (1.9511, 1.9051, 2.0354) & (1.8329, 1.9306, 2.0718) & (1.8392, 1.6363, 2.2518) \\
-        Likelihood function at the real values & -3234.8000 & -1305.5000 & -618.3805 & -137.2584 \\
-        Likelihood function at the estimated value & -3235.4000 & -1301.8000 & -615.3697 & -134.6563 \\
-        Run time (s) & 100.6719 & 96.2500 & 89.6094 & 72.2188 \\
+        % Linha de parâmetros estimados, corrigindo os comandos de símbolo
+        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (1.9829, 2.0162, 2.0177) & (1.9374, 2.0165, 1.9982) & (2.0222, 1.9569, 2.0512) & (1.8491, 2.0029, 2.1073) \\
+        % Likelihood nos valores reais
+        Likelihood function at the real values & -3254.7346 & -1326.3027 & -631.2297 & -136.3167 \\
+        % Likelihood nos valores estimados
+        Likelihood function at the estimated value & -3252.9574 & -1324.7026 & -629.9147 & -135.1983 \\
+        % Tempo de execução
+        Run time (s) & 7.2342 & 6.0214 & 5.9584 & 6.8564 \\
         \bottomrule
     \end{tabular}%
 }
+\caption{Tabela de Resultados para o Exemplo 1: Weibull (2, 2, 2) via SA}
+\label{tab:sa_weibull_results_ex1}
+\end{table}
 
 \end{frame}
 
@@ -438,34 +446,42 @@ loglik_weibull3 <- function(params, x) {
 
 \begin{frame}[fragile] % Use [fragile] se o seu slide tiver muito código R ou comandos especiais
 \frametitle{Resultados da Estimação por Recozimento Simulado}
-\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+\framesubtitle{Weibull ($\beta =3, \ \eta =5,\ \gamma = 7)$}
 
+\begin{table}[ht]
 \centering
-
-% 1. Aplica o menor tamanho de fonte para caber no slide
-\tiny 
-
-% 2. Usa resizebox para forçar a largura total do slide (\linewidth)
+% Opcional: Reduz o tamanho da fonte para caber se for usado em slide
+\tiny
+% Opcional: Força a tabela a ter a largura da linha
 \resizebox{\linewidth}{!}{%
-    \begin{tabular}{lrrrrr} % O formato {lrrrrr} tem 1 coluna de rótulo e 4 de dados
+    \begin{tabular}{lrrrr} % Formato {lrrrr} para 1 coluna de rótulo e 4 de dados
         \toprule
-        \multicolumn{1}{c}{\textbf{Weibull parameters}} & \multicolumn{4}{c}{\textbf{(2, 2, 2)}}\\\\
+        % Parâmetros (3, 5, 7)
+        \multicolumn{1}{c}{\textbf{Weibull parameters}} & \multicolumn{4}{c}{\textbf{(3, 5, 7)}}\\\\
         \hline
+        % Cabeçalhos das colunas
         \textbf{Measure} & \textbf{2500} & \textbf{1000} & \textbf{500} & \textbf{100} \\
         \midrule
-        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (2.0298, 2.0338, 1.9995) & (1.9511, 1.9051, 2.0354) & (1.8329, 1.9306, 2.0718) & (1.8392, 1.6363, 2.2518) \\
-        Likelihood function at the real values & -3234.8000 & -1305.5000 & -618.3805 & -137.2584 \\
-        Likelihood function at the estimated value & -3235.4000 & -1301.8000 & -615.3697 & -134.6563 \\
-        Run time (s) & 100.6719 & 96.2500 & 89.6094 & 72.2188 \\
+        % Linha de parâmetros estimados
+        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (2.9609, 4.9583, 7.0445) & (2.9254, 4.8563, 7.0478) & (3.2833, 5.1335, 6.8745) & (2.7800, 4.5803, 7.3323) \\
+        % Likelihood nos valores reais
+        Likelihood function at the real values & -4741.6982 & -1889.3753 & -927.9355 & -186.2723 \\
+        % Likelihood nos valores estimados
+        Likelihood function at the estimated value & -4741.5966 & -1887.9379 & -926.3573 & -185.9554 \\
+        % Tempo de execução
+        Run time (s) & 6.6395 & 6.0145 & 5.7210 & 5.6069 \\
         \bottomrule
     \end{tabular}%
 }
+\caption{Tabela de Resultados para o Exemplo 2: Weibull (3, 5, 7) via SA}
+\label{tab:sa_weibull_results_ex2}
+\end{table}
 
 \end{frame}
 
 \begin{frame}[fragile] % Use [fragile] se o seu slide tiver muito código R ou comandos especiais
 \frametitle{Resultados da Estimação por Recozimento Simulado}
-\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+\framesubtitle{Weibull ($\beta =3, \ \eta =5,\ \gamma = 7)$}
 \begin{figure}[h]
 			\centering
 			\includegraphics[width=0.8\textwidth]{sa_weibull_convergencia_exemplo2.png}
@@ -475,34 +491,35 @@ loglik_weibull3 <- function(params, x) {
 
 \begin{frame}[fragile] % Use [fragile] se o seu slide tiver muito código R ou comandos especiais
 \frametitle{Resultados da Estimação por Recozimento Simulado}
-\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+\framesubtitle{Weibull ($\beta =8, \ \eta =4,\ \gamma = 6)$}
 
+\begin{table}[ht]
 \centering
-
-% 1. Aplica o menor tamanho de fonte para caber no slide
-\tiny 
-
-% 2. Usa resizebox para forçar a largura total do slide (\linewidth)
+% 1. Aplica o menor tamanho de fonte (opcional, dependendo do conteúdo)
+\tiny
+% 2. Usa resizebox para forçar a largura total da tabela (opcional, dependendo do conteúdo)
 \resizebox{\linewidth}{!}{%
-    \begin{tabular}{lrrrrr} % O formato {lrrrrr} tem 1 coluna de rótulo e 4 de dados
+    \begin{tabular}{lrrrr} % Formato {lrrrr} para 1 coluna de rótulo e 4 de dados
         \toprule
-        \multicolumn{1}{c}{\textbf{Weibull parameters}} & \multicolumn{4}{c}{\textbf{(2, 2, 2)}}\\\\
+        \multicolumn{1}{c}{\textbf{Weibull parameters}} & \multicolumn{4}{c}{\textbf{(8, 4, 6)}}\\\\ % Duas quebras de linha para simular o espaçamento do primeiro slide
         \hline
         \textbf{Measure} & \textbf{2500} & \textbf{1000} & \textbf{500} & \textbf{100} \\
         \midrule
-        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (2.0298, 2.0338, 1.9995) & (1.9511, 1.9051, 2.0354) & (1.8329, 1.9306, 2.0718) & (1.8392, 1.6363, 2.2518) \\
-        Likelihood function at the real values & -3234.8000 & -1305.5000 & -618.3805 & -137.2584 \\
-        Likelihood function at the estimated value & -3235.4000 & -1301.8000 & -615.3697 & -134.6563 \\
-        Run time (s) & 100.6719 & 96.2500 & 89.6094 & 72.2188 \\
+        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (7.3183, 3.7274, 6.2453) & (7.4927, 3.8168, 6.2023) & (5.9484, 3.0631, 6.9459) & (4.2302, 1.9655, 8.0114) \\
+        Likelihood function at the real values & -2062.5242 & -831.9918 & -411.7484 & -70.3477 \\
+        Likelihood function at the estimated value & -2059.4080 & -830.5465 & -410.4577 & -67.7416 \\
+        Run time (s) & 6.6368 & 6.0142 & 6.4628 & 5.9164 \\
         \bottomrule
     \end{tabular}%
 }
-
+\caption{Tabela de Resultados para o Exemplo 3: Weibull (8, 4, 6) via SA}
+\label{tab:sa_weibull_results_ex3}
+\end{table}
 \end{frame}
 
 \begin{frame}[fragile] % Use [fragile] se o seu slide tiver muito código R ou comandos especiais
 \frametitle{Resultados da Estimação por Recozimento Simulado}
-\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+\framesubtitle{Weibull ($\beta =8, \ \eta =4,\ \gamma = 6)$}
 \begin{figure}[h]
 			\centering
 			\includegraphics[width=0.8\textwidth]{sa_weibull_convergencia_exemplo3.png}
