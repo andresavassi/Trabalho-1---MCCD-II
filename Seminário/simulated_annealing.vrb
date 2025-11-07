@@ -1,9 +1,11 @@
-\frametitle{Código}
+\frametitle{Código implementado}
 \noindent
 ^^I{\color{blue} \footnotesize
 ^^I^^I\begin{verbatim}
-^^I^^I#bibliotecas
+#bibliotecas
 library(ggplot2); library(dplyr); library(tidyr); library(gridExtra)
+
+#log-verossimilhança
 loglik_weibull3 <- function(params, x) {
   b <- params[1]; g <- params[2]; c <- params[3]
   if (b <= 0 || g <= 0 || any(x <= c)) {

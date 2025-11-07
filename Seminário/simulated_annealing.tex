@@ -7,6 +7,10 @@
 \usepackage{graphicx}
 \usepackage[percent]{overpic}
 \usepackage{fancyvrb}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 \lstset{
 	language=R,
@@ -104,10 +108,87 @@
 	
 	
 	\subsection{Teoria}
-	\begin{frame}{Teoria}
-	 
+	\begin{frame}{Dist. Weibull Tri-Paramétrica}
+	O estudo será centrado em estimar os parâmetros primeiramente de uma distribuição Weibull com a seguinte função densidade:
+	
+	\begin{equation}
+	 f(x) = \frac{\beta}{\eta}\left(\frac{x- \gamma}{\eta}\right)^{\beta-1}e^{-\frac{x - \gamma}{\eta}^{\beta}};\ \beta > 0, \ \eta > \gamma \geq 0.
+	\end{equation}
+	
+	Tenha ciência também que sua acumulada tem o seguinte resultado:
+	\begin{equation*}
+	 F(x) = 1 - e^{-\frac{x - \gamma}{\eta}^{\beta}}, 
+	\end{equation*}
+	 sendo $\beta,\ \eta, \ \gamma$ os parâmetros de forma, escala e locação, respectivamente.
 	\end{frame}
 	
+	\begin{frame}
+	 A distribuição Weibull tri-paramétrica é raramente usada devido à dificuldade de se estimar estes parâmetros. Portanto, o uso de SA será feito para tentar estimar estes parâmetros. Aqui o algoritmo será fundamental para maximizar a função de verossimilhança. 
+	\end{frame}
+	
+	\begin{frame}{Estimação por EMV}
+	 Temos ciência que a função de máxima verossimilhança é descrita da seguinte forma:
+	 
+	 \begin{equation*}
+	  L(x) = \prod_{i=1}^{n} f_{x_i}(x_i \theta)
+	 \end{equation*}
+	 
+	 Com isso, a log-verossimilhança é a seguinte:
+	 
+	 \begin{equation}
+	  \text{Ln}(L(x_1, \dots, x_n, \beta, \eta, \gamma)) = n\text{Ln}\left(\frac{\beta}{\eta}\right) + \sum_{i=1}^{n} \left( -\left(\frac{x_i - \gamma}{\eta}\right)^{\beta} + (\beta - 1)\text{Ln}\left(\frac{x_i - \gamma}{\eta}\right) \right).
+	 \end{equation}
+	 
+	 Para encontrar as estimativas dos parâmetros devemos realizar as derivadas parciais e igualar a zero, da seguinte forma:
+	 
+	 \begin{equation*}
+	  \frac{\partial}{\partial \theta} Ln(L(x)) = 0
+	 \end{equation*}
+	 
+	 Fica evidente que esta é uma função bem difícil de derivar, necessitando derivar gradiente ou mesmo aplicar métodos numéricos, portanto prosseguiremos para a ideia geral do algoritmo SA
+	\end{frame}
+	
+	\subsection{Algoritmo Geral de Recozimento Simulado}
+	\begin{frame}{Algoritmo}
+	 A principal vantagem deste método perante os demais é  fato de que este, ao se empregar uma busca aleatória, \textbf{não se prende a pontos de mínimos locais}. O algoritmo aceita mudanças que aceitam a diminuição e também o aumento da função objetivo \textit{f}. O seu aumento é aceito com probabilidade: $p = e^{-\frac{\Delta}{T}}$ sendo $\theta$ o aumento e $T$ o parâmetro de controle, analogamente conhecido como temperatura do sistema. A sua implementação é simples:
+	 
+	 \begin{itemize}
+	  \item Uma representação de soluções possíveis,
+	  \item Um gerador de mudanças aleatórias nas soluções,
+	  \item Um meio de avaliar as funções do problema, e
+	  
+	  \item Um esquema de resfriamento (annealing schedule) – uma temperatura inicial e regras para diminuí-la à medida que a busca progride.
+	 \end{itemize}
+	
+	\end{frame}
+ \noindent
+ {\color{red}
+\begin{verbatim}
+ simulated_annealing <- function(f, S0, T0, L, alpha, T_min) {
+    T <- T0; S <- S0
+    S_star <- S0; f_S <- f(S)
+    f_S_star <- f_S
+    while (T > T_min) {
+        for (n in 1:L) {
+            S_n <- gerar_vizinho(S) 
+            f_S_n <- f(S_n); Delta <- f_S_n - f_S
+            if (Delta <= 0) {
+                S <- S_n; f_S <- f_S_n
+            } else {
+                p <- exp(-Delta / T)
+                if (runif(1) < p) {
+                    S <- S_n; f_S <- f_S_n
+                }}}
+        if (f_S < f_S_star) {
+            S_star <- S; f_S_star <- f_S
+        }
+        T <- T * alpha
+    } 
+    return(list(best_solution = S_star, best_cost = f_S_star))
+}
+
+\end{verbatim}
+	}
 	\subsection{Implementação}
 		
 \begin{frame}[fragile]{Código implementado}
@@ -130,22 +211,124 @@ loglik_weibull3 <- function(params, x) {
     \end{verbatim}
 	}
 	\end{frame}
-	
+	\noindent
+	{\color{blue} \footnotesize
 	\begin{verbatim}
-#bibliotecas
-library(ggplot2); library(dplyr); library(tidyr); library(gridExtra)
-
-#log-verossimilhança
-loglik_weibull3 <- function(params, x) {
-  b <- params[1]; g <- params[2]; c <- params[3]
-  if (b <= 0 || g <= 0 || any(x <= c)) {
-    return(-Inf)
+# Gera vizinho (proposta) garantindo g>0, b>0, c < min(x) (senão rejeita)
+propose_neighbor <- function(curr, x, sds = c(0.1, 0.1, 0.1)) {
+  attempt <- 0
+  repeat {
+    attempt <- attempt + 1
+    b1 <- curr[1] + rnorm(1, mean = 0, sd = sds[1])
+    g1 <- curr[2] + rnorm(1, mean = 0, sd = sds[2])
+    c1 <- curr[3] + rnorm(1, mean = 0, sd = sds[3])
+    # enforce positivity of b,g by reflecting small negatives
+    if (b1 <= 0) {
+      b1 <- abs(b1) + 1e-6
+    }
+    if (g1 <= 0) {
+      g1 <- abs(g1) + 1e-6
+    }
+    # require c1 < min(x) - tiny
+    if (c1 < min(x) - 1e-8) {
+      return(c(b1, g1, c1))
+    }
+    # else try again; after many attempts increase sd for c
+    if (attempt > 50) {
+      sds[3] <- sds[3] * 1.5
+    }
+    if (attempt > 1000) {
+      # extremely unlikely; fallback: set c1 = min(x) - epsilon
+      return(c(b1, g1, min(x) - 1e-6))
+    }
   }
-  z <- (x - c) / g
-  ll <- length(x) * (log(b) - log(g)) + (b - 1) * sum(log(z)) - sum(z^b)
-  return(ll)
+}
+
+# SA algorithm (maximização da log-verossimilhança)
+sa_weibull3 <- function(
+  x,
+  init = NULL,
+  T0 = 100,
+  Tf = 0.001,
+  cooling_rate = 0.99,
+  L = 5,
+  sds = c(0.1, 0.1, 0.1),
+  verbose = FALSE
+) {
+  n <- length(x)
+  # initial solution: if not provided, use method of moments-ish guesses
+  if (is.null(init)) {
+    # use rweibull fit approximations: estimate c0 slightly below min(x)
+    c0 <- min(x) - 0.1 * sd(x)
+    if (c0 >= min(x)) {
+      c0 <- min(x) - 1e-3
+    }
+    # fit two-parameter Weibull to x - c0 via linearization (quick guess)
+    y <- x - c0
+    y[y <= 0] <- min(y[y > 0]) * 0.1
+    # estimate using log-log regression
+    est <- try(
+      {
+        ln_x <- log(y)
+        ln_ln <- log(-log(1 - (1:n) / (n + 1)))
+        fit <- lm(ln_x ~ ln_ln)
+        b0 <- 1 / coef(fit)[2]
+        g0 <- exp(coef(fit)[1])
+        c(b0, g0, c0)
+      },
+      silent = TRUE
+    )
+    if (inherits(est, "try-error") || any(!is.finite(est))) {
+      est <- c(1.5, sd(x), min(x) - 0.1)
+    }
+    curr <- est
+  } else {
+    curr <- init
+  }
+
+  curr_ll <- loglik_weibull3(curr, x)
+  best <- curr
+  best_ll <- curr_ll
+
+  T <- T0
+  history <- data.frame(eval = 1, ll = curr_ll)
+  eval_count <- 1
+
+  while (T > Tf) {
+    ninner <- 1
+    while (ninner <= L) {
+      prop <- propose_neighbor(curr, x, sds = sds)
+      prop_ll <- loglik_weibull3(prop, x)
+      # If better, accept; else accept with probability exp((prop_ll - curr_ll)/T)
+      if (prop_ll > curr_ll) {
+        curr <- prop
+        curr_ll <- prop_ll
+      } else {
+        delta <- prop_ll - curr_ll
+        if (runif(1) < exp(delta / T)) {
+          curr <- prop
+          curr_ll <- prop_ll
+        }
+      }
+      if (curr_ll > best_ll) {
+        best <- curr
+        best_ll <- curr_ll
+      }
+      eval_count <- eval_count + 1
+      history <- rbind(history, data.frame(eval = eval_count, ll = curr_ll))
+      ninner <- ninner + 1
+    }
+    T <- cooling_rate * T
+  }
+  return(list(
+    best = best,
+    best_ll = best_ll,
+    history = history,
+    evals = eval_count
+  ))
 }
     \end{verbatim}
 	}
+	
 	
 	\end{document}
