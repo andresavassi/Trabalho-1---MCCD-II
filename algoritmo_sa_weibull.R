@@ -7,12 +7,15 @@ library(tidyr)
 library(gridExtra)
 library(xtable)
 
+caminho <- paste0(getwd(), "/Seminário")
+
+
 # Criação da Pasta para Figuras
 if (!dir.exists("figuras")) {
   dir.create("figuras")
 }
 print("Pasta 'figuras/' verificada/criada.")
-set.seed(42) # Para reprodutibilidade
+set.seed(20252) # Para reprodutibilidade
 
 # --- 2. FUNÇÕES BASE (WEIBULL 3P E SA) ---
 
@@ -358,7 +361,7 @@ print(paste(
 results_ex1 <- run_and_save_example(1, real_params_ex1)
 
 # Exemplo 2: theta = (2, 3, 4)
-real_params_ex2 <- c(2, 3, 4)
+real_params_ex2 <- c(3, 5, 7)
 print(paste(
   "--- Executando Exemplo 2:",
   paste(real_params_ex2, collapse = ", "),
@@ -367,7 +370,7 @@ print(paste(
 results_ex2 <- run_and_save_example(2, real_params_ex2)
 
 # Exemplo 3: theta = (3, 2, 5)
-real_params_ex3 <- c(3, 2, 5)
+real_params_ex3 <- c(8, 4, 6)
 print(paste(
   "--- Executando Exemplo 3:",
   paste(real_params_ex3, collapse = ", "),

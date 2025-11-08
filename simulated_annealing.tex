@@ -84,7 +84,7 @@
 	\begin{frame}{Processo de Recozimento}
 	O conceito foi introduzido da ideia de recozimento, onde um sólido é levado para um estado de baixa energia após aumentar sua temperatura.
 	
-	O processo consiste em dua estapas, sendo elas:
+	O processo consiste em duas etapas, sendo elas:
 	
 	\begin{itemize}
 	\item "Derretimento" da sua estrutura ao levá-lo a uma temperatura muito elevada.
@@ -108,18 +108,37 @@
 	 \end{itemize}
 	\end{frame}
 	
+	\subsection{Vantagens e Desvantagens}
+	\begin{frame}{Vantagens e Desvantagens}
+	 \textbf{Vantagens}
+	 \begin{itemize}\item
+	  Pode lidar com modelos não lineares complexos, dados caóticos e desordenados, sendo uma técnica robusta no geral;
+	  \item É flexível para aproximar do ótimo global;
+	  \item O algoritmo é considerado versátil por não se prender às propriedades do modelo;
+	  \item O método é facilmente ajustado ("tunado"), ou seja, buscando melhorar seu desempenho.
+	 \end{itemize}
+	 
+	 \textbf{Desvantagens}
+	 \begin{itemize}\item
+	  Necessita de muitas escolhas (e parâmetros) para torná-lo um algoritmo real;
+	  \item O trabalho para adaptar(tailoring) e ajustar os parâmetros do algoritmo pode ser bastante delicado;
+	  \item A precisão dos número usados na implementação do SA pode ter um efeito significativo na qualidade do resultado do método;
+	  \item Não é um algoritmo simples e convencional a ser implementado.
+	 \end{itemize}
+	\end{frame}
+	
 	
 	\subsection{Teoria}
 	\begin{frame}{Dist. Weibull Tri-Paramétrica}
 	O estudo será centrado em estimar os parâmetros primeiramente de uma distribuição Weibull com a seguinte função densidade:
 	
 	\begin{equation}
-	 f(x) = \frac{\beta}{\eta}\left(\frac{x- \gamma}{\eta}\right)^{\beta-1}e^{-\frac{x - \gamma}{\eta}^{\beta}};\ \beta > 0, \ \eta > \gamma \geq 0.
+	 f(x) = \frac{\beta}{\eta}\left(\frac{x- \gamma}{\eta}\right)^{\beta-1}e^{\left(-\frac{x - \gamma}{\eta}\right)^{\beta}};\ \beta > 0, \ \eta > \gamma \geq 0.
 	\end{equation}
 	
 	Tenha ciência também que sua acumulada tem o seguinte resultado:
 	\begin{equation*}
-	 F(x) = 1 - e^{-\frac{x - \gamma}{\eta}^{\beta}}, 
+	 F(x) = 1 - e^{\left(-\frac{x - \gamma}{\eta}\right)^{\beta}}, 
 	\end{equation*}
 	 sendo $\beta,\ \eta, \ \gamma$ os parâmetros de forma, escala e locação, respectivamente.
 	\end{frame}
@@ -198,8 +217,8 @@
 	\item O tamanho de cada nível de temperatura determina o número de soluções geradas em uma certa temperatura T;
 	\item O critério de parada define quando o sistema encontrou o nível de eneergia desejado. Em suma, isso define:
 	\begin{itemize}
-	 \item O totald e números de soluções geradas.
-	 \item A temperatuira a cada nível de energia desejado.
+	 \item O total de números de soluções geradas.
+	 \item A temperatura a cada nível de energia desejado.
 	 \item A razão de aceitação (entre o número de soluções aceitadas e geradas).
 	\end{itemize}
 	 	\end{itemize}
@@ -230,7 +249,7 @@
         \hline
         \multicolumn{2}{|c|}{\textbf{Loop Externo (Resfriamento)}} \\
         \hline
-        5 & \textbf{Enquanto} $T > T_0$: 
+        5 & \textbf{Enquanto} $T > T_f$: 
             \[ T \leftarrow C T \] \\
         \hline
         \multicolumn{2}{|c|}{\textbf{Loop Interno (Equilíbrio)}} \\
@@ -269,7 +288,7 @@
         
  \end{frame}
 	
-	\subsection{Implementação}
+	\section{Implementação}
 		
 \begin{frame}[fragile]{Código implementado}
 	\noindent
@@ -285,7 +304,7 @@ loglik_weibull3 <- function(params, x) {
   }
   
   z <- (x - c) / g
-  # Fórmula Log-Verossimilhança (Eq 7 do artigo)
+  # Fórmula Log-Verossimilhança
   ll <- length(x) * (log(b) - log(g)) + sum((b - 1) * log(z) - (z^b))
   return(ll)
 }

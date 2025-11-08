@@ -361,7 +361,7 @@ print(paste(
 results_ex1 <- run_and_save_example(1, real_params_ex1)
 
 # Exemplo 2: theta = (2, 3, 4)
-real_params_ex2 <- c(2, 3, 4)
+real_params_ex2 <- c(3, 5, 7)
 print(paste(
   "--- Executando Exemplo 2:",
   paste(real_params_ex2, collapse = ", "),
@@ -370,7 +370,7 @@ print(paste(
 results_ex2 <- run_and_save_example(2, real_params_ex2)
 
 # Exemplo 3: theta = (3, 2, 5)
-real_params_ex3 <- c(3, 2, 5)
+real_params_ex3 <- c(8, 4, 6)
 print(paste(
   "--- Executando Exemplo 3:",
   paste(real_params_ex3, collapse = ", "),
