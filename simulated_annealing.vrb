@@ -1,6 +1,42 @@
-\frametitle{Resultados da Estimação por Recozimento Simulado}
-\framesubtitle{Weibull ($\beta =8, \ \eta =4,\ \gamma = 6)$}
-\begin{figure}[h]
-^^I^^I^^I\centering
-^^I^^I^^I\includegraphics[width=0.8\textwidth]{sa_weibull_convergencia_exemplo3.png}
-^^I^^I\end{figure}
+\frametitle{Resultados da Estimação por Optim - MC}
+\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+
+\begin{table}[ht]
+\centering
+% Opcional: Reduz o tamanho da fonte para caber se for usado em slide
+\tiny
+% Opcional: Força a tabela a ter a largura da linha
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{c|c|c|c|c|c}
+\hline
+Tamanho da Amostra & Parâmetro & Valor Real & Estimativa Média & Desvio Padrão & Viés Relativo\\
+\hline
+50 & $\beta$ & 2 & 1.961 & 0.451 & -1.965\\
+\hline
+50 & $\eta$ & 2 & 1.904 & 0.320 & -4.812\\
+\hline
+50 & $\gamma$ & 2 & 2.078 & 0.241 & 3.892\\
+\hline
+100 & $\beta$ & 2 & 1.954 & 0.265 & -2.297\\
+\hline
+100 & $\eta$ & 2 & 1.929 & 0.193 & -3.568\\
+\hline
+100 & $\gamma$ & 2 & 2.058 & 0.140 & 2.915\\
+\hline
+500 & $\beta$ & 2 & 1.981 & 0.098 & -0.928\\
+\hline
+500 & $\eta$ & 2 & 1.978 & 0.073 & -1.077\\
+\hline
+500 & $\gamma$ & 2 & 2.018 & 0.047 & 0.887\\
+\hline
+1000 & $\beta$ & 2 & 1.986 & 0.066 & -0.678\\
+\hline
+1000 & $\eta$ & 2 & 1.986 & 0.049 & -0.720\\
+\hline
+1000 & $\gamma$ & 2 & 2.011 & 0.030 & 0.560\\
+\hline
+\end{tabular}
+}
+\caption{Tabela de Estimações via Optim - Weibull(2,2,2)}
+\label{tab:optim_weibull_results}
+\end{table}

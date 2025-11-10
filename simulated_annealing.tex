@@ -410,24 +410,18 @@ run_and_save_example <- function(example_num, real_params) {
     "eta_est" = numeric(),
     "gamma_est" = numeric(),
     "LL_real" = numeric(),
-    "LL_est" = numeric(),
-    "Time_s" = numeric()
+    "LL_est" = numeric()
   )
-  plot_data <- list()
-
-  # Loop pontual
+  
   for (N in sample_sizes) {
-    # 1. Geração da Amostra (Weibull 3P)
-    data_x <- rweibull(N, shape = real_params[1], scale = real_params[2]) +
-      real_params[3]
 
-    # LL - Parametro Real
+    data_x <- rweibull(N, shape = real_params[1], scale = real_params[2]) 
+    + real_params[3]
+
+    
     ll_real <- loglik_weibull3(real_params, data_x)
 
-    # Execução SA
-    start_time <- Sys.time()
-
-    # Inicialização (Passada explicitamente para run_and_save_example)
+    # Inicialização 
     init_params <- c(1.5, sd(data_x), min(data_x) - 0.1)
 
     sa_result <- sa_weibull3(
@@ -438,10 +432,7 @@ run_and_save_example <- function(example_num, real_params) {
       cooling_rate = cooling_rate_val,
       L = L_val
     )
-    end_time <- Sys.time()
-    run_time <- as.numeric(difftime(end_time, start_time, units = "secs"))
 
-    # Armazenamento
     best_p <- sa_result$best_params
     best_ll <- sa_result$best_ll
 
@@ -452,10 +443,10 @@ run_and_save_example <- function(example_num, real_params) {
       "gamma_est" = best_p[3],
       "LL_real" = ll_real,
       "LL_est" = best_ll,
-      "Time_s" = run_time
+
     )
     results_table <- rbind(results_table, new_row) #{...}
-    }
+    }}
  
     \end{verbatim}
 	}
@@ -593,6 +584,265 @@ run_and_save_example <- function(example_num, real_params) {
 			\includegraphics[width=0.8\textwidth]{sa_weibull_convergencia_exemplo3.png}
 		\end{figure}
 \end{frame}
+
+
+
+
+\section{Estudo Monte Carlo}
+\begin{frame}{Estudo Monte Carlo}
+Visando compreender a robustez do modelo, será feito um estudo Monte Carlo, baseando-se na computação da média amostral para um número $m$ de réplicas suficientemente grande da distribuição em questão. 
+
+Para uma função monótona $g(\mathbf{X})$, com $\mathbf{X} = (X_1, \dots, X_n)$ representando os elementos amostrais, seja
+$$
+\mathbf{X}^{(j)} = \{X_1^{(j)}, X_2^{(j)}, \dots, X_n^{(j)}\}, \quad j = 1, \dots, m.
+$$
+
+Sendo $X_i^{(j)}, i = 1, \dots, n$, vetores de v.a. i.i.d de $\mathbf{X}$.
+
+Computamos as respectivas réplicas por:
+$$
+Y_j = g(\mathbf{X}_1^{(j)}, \dots, \mathbf{X}_n^{(j)}).
+$$
+
+Então $Y_1, \dots, Y_m$ são independentes e identicamente distribuídas de $Y = g(\mathbf{X})$.
+
+Considere, portanto:
+
+\begin{equation*}
+    \bar{Y} =   \frac{1}{m} \sum_{j=1}^{m} Y_j
+\end{equation*}
+
+\end{frame}
+
+\subsection{Código}
+
+    \noindent
+    {\color{blue}
+    \begin{verbatim}
+run_example <- function(real_params) {
+  sample_sizes <- 2500
+  T0_val <- 100
+  Tf_val <- 0.001
+  cooling_rate_val <- 0.99
+  L_val <- 5
+  
+  results_table <- data.frame(
+    "N" = integer(),
+    "beta_est" = numeric(),
+    "eta_est" = numeric(),
+    "gamma_est" = numeric(),
+    "LL_real" = numeric(),
+    "LL_est" = numeric()
+  )
+  
+  for (N in sample_sizes) {
+    data_x <- rweibull(N, shape = real_params[1], scale = real_params[2]) 
+    + real_params[3]
+      
+    ll_real <- loglik_weibull3(real_params, data_x)
+    init_params <- c(1.5, sd(data_x), min(data_x) - 0.1)
+    
+    sa_result <- sa_weibull3(
+      x = data_x,
+      init = init_params,
+      T0 = T0_val,
+      Tf = Tf_val,
+      cooling_rate = cooling_rate_val,
+      L = L_val
+    )
+    best_p <- sa_result$best_params
+    best_ll <- sa_result$best_ll
+    
+    new_row <- data.frame(
+      "N" = N,
+      "beta_est" = best_p[1],
+      "eta_est" = best_p[2],
+      "gamma_est" = best_p[3],
+      "LL_real" = ll_real,
+      "LL_est" = best_ll,
+      "Time_s" = run_time
+    )
+    results_table <- rbind(results_table, new_row)
+    return(results_table)
+  }}
+
+estudo_mc <- function(n = 2500, real_params, m = 500) { 
+  beta_est <- numeric(m)
+  eta_est <- numeric(m)
+  gamma_est <- numeric(m)
+  
+  for(i in 1:m){
+    est <- run_example(real_params)
+ 
+    beta_est[i] <- tail(est$beta, 1)
+    eta_est[i] <- tail(est$eta, 1)
+    gamma_est[i] <- tail(est$gamma, 1)
+  }
+  
+  return(data.frame(beta_est, eta_est, gamma_est))
+}
+av1 <- estudo_mc(real_params = c(2,2,2))
+av2 <- estudo_mc(real_params = c(3,5,7))
+av3 <- estudo_mc(real_params = c(8,4,6))
+
+    \end{verbatim}
+}
+
+\subsection{Resultado}
+
+\begin{frame}[fragile]
+\frametitle{Resultados da Estimação por SA - MC}
+\begin{table}[ht]
+    \centering
+    % Opcional: Reduz o tamanho da fonte para caber se for usado em slide
+    \tiny
+    % Opcional: Força a tabela a ter a largura da linha
+    \resizebox{\linewidth}{!}{%
+        \begin{tabular}{l c c c c c c c c c} % 'l' para o rótulo da linha (invisível aqui) e 9 'c' para os dados
+            \toprule
+            \multicolumn{9}{c}{\textbf{Avaliação dos Estimadores - Método de Monte Carlo}} \\
+            \midrule
+            \textbf{$\beta$ Verdadeiro} & \textbf{$\beta$ Médio} & \textbf{$\beta$ DP} & \textbf{$\eta$ Verdadeiro} & \textbf{$\eta$ Médio} & \textbf{$\eta$ DP} & \textbf{$\gamma$ Verdadeiro} & \textbf{$\gamma$ Médio} & \textbf{$\gamma$ DP} \\
+            \midrule
+            \midrule
+            2 & 1.9997 & 0.0426 & 2 & 1.9908 & 0.0268 & 2 & 2.0075 & 0.0158 \\
+            3 & 3.0038 & 0.1035 & 5 & 5.0028 & 0.1293 & 7 & 7.0001 & 0.1155 \\
+            8 & 7.8918 & 0.6235 & 4 & 3.9459 & 0.3046 & 6 & 6.0540 & 0.3015 \\
+            \bottomrule
+        \end{tabular}%
+    }
+\end{table}
+\end{frame}
+
+
+\begin{frame}[fragile] % Use [fragile] se o seu slide tiver muito código R ou comandos especiais
+\frametitle{Resultados da Estimação por SA - MC}
+\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+
+\begin{table}[ht]
+\centering
+% Opcional: Reduz o tamanho da fonte para caber se for usado em slide
+\tiny
+% Opcional: Força a tabela a ter a largura da linha
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{c|c|c|c|c|c}
+\hline
+Tamanho da Amostra & Parâmetro & Valor Real & Estimativa Média & Desvio Padrão & Viés Relativo\\
+\hline
+50 & $\beta$ & 2 & 1.967 & 0.472 & -1.648\\
+\hline
+50 & $\eta$ & 2 & 1.908 & 0.334 & -4.580\\
+\hline
+50 & $\gamma$ & 2 & 2.074 & 0.257 & 3.684\\
+\hline
+100 & $\beta$ & 2 & 1.955 & 0.266 & -2.274\\
+\hline
+100 & $\eta$ & 2 & 1.929 & 0.193 & -3.531\\
+\hline
+100 & $\gamma$ & 2 & 2.058 & 0.140 & 2.890\\
+\hline
+500 & $\beta$ & 2 & 1.982 & 0.098 & -0.883\\
+\hline
+500 & $\eta$ & 2 & 1.979 & 0.073 & -1.040\\
+\hline
+500 & $\gamma$ & 2 & 2.017 & 0.047 & 0.859\\
+\hline
+1000 & $\beta$ & 2 & 1.986 & 0.067 & -0.682\\
+\hline
+1000 & $\eta$ & 2 & 1.986 & 0.050 & -0.722\\
+\hline
+1000 & $\gamma$ & 2 & 2.011 & 0.031 & 0.552\\
+\hline
+\end{tabular}
+}
+\caption{Tabela de Estimações via SA - Weibull(2,2,2)}
+\label{tab:optim_weibull_results}
+\end{table}
+\end{frame}
+
+
+
+\begin{frame}[fragile] % Use [fragile] se o seu slide tiver muito código R ou comandos especiais
+\frametitle{Resultados da Estimação por Optim - MC}
+\framesubtitle{Weibull ($\beta =2, \ \eta =2,\ \gamma = 2)$}
+
+\begin{table}[ht]
+\centering
+% Opcional: Reduz o tamanho da fonte para caber se for usado em slide
+\tiny
+% Opcional: Força a tabela a ter a largura da linha
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{c|c|c|c|c|c}
+\hline
+Tamanho da Amostra & Parâmetro & Valor Real & Estimativa Média & Desvio Padrão & Viés Relativo\\
+\hline
+50 & $\beta$ & 2 & 1.961 & 0.451 & -1.965\\
+\hline
+50 & $\eta$ & 2 & 1.904 & 0.320 & -4.812\\
+\hline
+50 & $\gamma$ & 2 & 2.078 & 0.241 & 3.892\\
+\hline
+100 & $\beta$ & 2 & 1.954 & 0.265 & -2.297\\
+\hline
+100 & $\eta$ & 2 & 1.929 & 0.193 & -3.568\\
+\hline
+100 & $\gamma$ & 2 & 2.058 & 0.140 & 2.915\\
+\hline
+500 & $\beta$ & 2 & 1.981 & 0.098 & -0.928\\
+\hline
+500 & $\eta$ & 2 & 1.978 & 0.073 & -1.077\\
+\hline
+500 & $\gamma$ & 2 & 2.018 & 0.047 & 0.887\\
+\hline
+1000 & $\beta$ & 2 & 1.986 & 0.066 & -0.678\\
+\hline
+1000 & $\eta$ & 2 & 1.986 & 0.049 & -0.720\\
+\hline
+1000 & $\gamma$ & 2 & 2.011 & 0.030 & 0.560\\
+\hline
+\end{tabular}
+}
+\caption{Tabela de Estimações via Optim - Weibull(2,2,2)}
+\label{tab:optim_weibull_results}
+\end{table}
+\end{frame}
+
+\begin{frame}{Gráficos}
+    \centering % Centraliza todo o conteúdo do slide (as minipages)
+
+    % --- Primeira Linha de Imagens ---
+    \begin{minipage}{0.48\textwidth} % Minipage para a primeira imagem (cerca de metade da largura)
+        \centering
+        \includegraphics[width=\linewidth, height=3cm]{grafico_optim1.png} % Preenche a largura da minipage
+        
+    \end{minipage}%
+    \hfill% Espaço flexível entre as minipages (para empurrar a segunda para a direita)
+    \begin{minipage}{0.48\textwidth} % Minipage para a segunda imagem
+        \centering
+        \includegraphics[width=\linewidth, height=3cm]{grafico_sa1.png}
+        
+    \end{minipage}
+
+    \vspace{0.5cm} % Espaço vertical entre a primeira e a segunda linha
+
+    % --- Segunda Linha de Imagens ---
+    \begin{minipage}{0.48\textwidth} % Minipage para a terceira imagem
+        \centering
+        \includegraphics[width=\linewidth, height=3cm]{grafico_optim2.png}
+        
+    \end{minipage}%
+    \hfill%
+    \begin{minipage}{0.48\textwidth} % Minipage para a quarta imagem
+        \centering
+        \includegraphics[width=\linewidth, height=3cm]{grafico_sa2.png}
+        
+    \end{minipage}
+
+\end{frame}
+
+
+
+
 
 \section{Referências Bibliográficas}
 

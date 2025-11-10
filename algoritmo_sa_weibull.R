@@ -447,7 +447,7 @@ run_example <- function(real_params) {
 
 
 
-estudo_mc <- function(n = 2500, real_params, m = 100) {
+estudo_mc <- function(n = 2500, real_params, m = 500) {
   
   beta_est <- numeric(m)
   eta_est <- numeric(m)
@@ -498,9 +498,9 @@ tab_resultados <- rbind(
 
 
 
-colnames(tab_resultados) <- c("\beta Verdadeiro", "\beta Médio", "\beta Desvio Padrão",
-                              "\eta Verdadeiro", "\eta Médio", "\eta Desvio Padrão",
-                              "\gamma Verdadeiro", "\gamma Médio", "\gamma Desvio Padrão")
+colnames(tab_resultados) <- c("beta Verdadeiro", "beta Médio", "beta Desvio Padrão",
+                              "eta Verdadeiro", "eta Médio", "eta Desvio Padrão",
+                              "gamma Verdadeiro", "gamma Médio", "gamma Desvio Padrão")
 
 kable(tab_resultados,
       digits = 4,
