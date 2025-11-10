@@ -6,21 +6,20 @@ library(dplyr)
 library(tidyr)
 library(gridExtra)
 library(xtable)
-# É bom ter MASS para sd() e inicialização, mas não é estritamente necessário para este erro
-# library(MASS)
 
 caminho <- paste0(getwd(), "/Seminário")
 
+
 # Criação da Pasta para Figuras
-if (!dir.exists("figuras1")) {
-  dir.create("figuras1")
+if (!dir.exists("figuras")) {
+  dir.create("figuras")
 }
-print("Pasta 'figuras1/' verificada/criada.")
+print("Pasta 'figuras/' verificada/criada.")
 set.seed(20252) # Para reprodutibilidade
 
 # --- 2. FUNÇÕES BASE (WEIBULL 3P E SA) ---
 
-# Função de Log-Verossimilhança Weibull 3P (CORRIGIDA NA VERSÃO ANTERIOR PARA NaN/NA)
+# Função de Log-Verossimilhança Weibull 3P
 loglik_weibull3 <- function(params, x) {
   b <- params[1] # beta (forma)
   g <- params[2] # eta (escala)
@@ -33,12 +32,6 @@ loglik_weibull3 <- function(params, x) {
   z <- (x - c) / g
   # Fórmula Log-Verossimilhança (Eq 7 do artigo)
   ll <- length(x) * (log(b) - log(g)) + sum((b - 1) * log(z) - (z^b))
-
-  # Incluindo a verificação de NaN/NA para robustez
-  if (is.nan(ll) || is.na(ll)) {
-    return(-Inf)
-  }
-
   return(ll)
 }
 
@@ -61,7 +54,6 @@ propose_neighbor <- function(curr, x, sds = c(0.1, 0.1, 0.1)) {
       g1 <- abs(g1) + 1e-6
     }
 
-    # Condição: c1 deve ser menor que o mínimo da amostra
     if (c1 < min_x - 1e-8) {
       return(c(b1, g1, c1))
     }
@@ -88,10 +80,37 @@ sa_weibull3 <- function(
 ) {
   n <- length(x)
 
-  # Se init não for fornecido, inicializa com valores razoáveis
+  # Lógica de Inicialização (Estimativa Rápida por Regressão Log-Log)
   if (is.null(init)) {
-    # Inicialização simplificada
-    init <- c(1, sd(x), min(x) - 0.1)
+    c0 <- min(x) - 0.1 * sd(x)
+    if (c0 >= min(x)) {
+      c0 <- min(x) - 1e-3
+    }
+
+    y <- x - c0
+    y[y <= 0] <- min(y[y > 0]) * 0.1
+
+    y_sorted <- sort(y)
+    prob_rank <- (1:n) / (n + 1)
+
+    ln_y <- log(y_sorted)
+    ln_ln <- log(-log(1 - prob_rank))
+
+    fit <- try(lm(ln_ln ~ ln_y), silent = TRUE)
+
+    if (inherits(fit, "try-error")) {
+      init <- c(1.5, sd(x), min(x) - 0.1)
+    } else {
+      b0 <- fit$coefficients[2]
+      g0 <- exp(-fit$coefficients[1] / b0)
+      init <- c(b0, g0, c0)
+
+      if (
+        !is.finite(b0) || !is.finite(g0) || !is.finite(c0) || b0 <= 0 || g0 <= 0
+      ) {
+        init <- c(1.5, sd(x), min(x) - 0.1)
+      }
+    }
   }
 
   curr <- init
@@ -99,14 +118,6 @@ sa_weibull3 <- function(
   best <- curr
   best_ll <- curr_ll
   T <- T0
-
-  # Garante que a inicialização não seja -Inf
-  while (curr_ll == -Inf) {
-    curr <- propose_neighbor(curr, x, sds = sds * 10) # Tenta um vizinho mais distante
-    curr_ll <- loglik_weibull3(curr, x)
-    best <- curr
-    best_ll <- curr_ll
-  }
 
   history <- data.frame(eval = 1, ll = curr_ll)
   eval_count <- 1
@@ -179,13 +190,8 @@ run_and_save_example <- function(example_num, real_params) {
 
     # 3. Execução do Simulated Annealing
     start_time <- Sys.time()
-
-    # Inicialização (Passada explicitamente para run_and_save_example)
-    init_params <- c(1.5, sd(data_x), min(data_x) - 0.1)
-
     sa_result <- sa_weibull3(
       x = data_x,
-      init = init_params,
       T0 = T0_val,
       Tf = Tf_val,
       cooling_rate = cooling_rate_val,
@@ -248,7 +254,7 @@ run_and_save_example <- function(example_num, real_params) {
     )
 
   filename_png <- paste0(
-    "figuras1/sa_weibull_convergencia_exemplo",
+    "figuras/sa_weibull_convergencia_exemplo",
     example_num,
     ".png"
   )
@@ -277,8 +283,7 @@ run_and_save_example <- function(example_num, real_params) {
       LL_est_f = sprintf("%.4f", LL_est),
       Time_s_f = sprintf("%.4f", Time_s)
     ) %>%
-    # CORREÇÃO AQUI: Especificar dplyr::select para evitar conflito com outros pacotes
-    dplyr::select(N, Estimated_Parameters, LL_real_f, LL_est_f, Time_s_f) %>%
+    select(N, Estimated_Parameters, LL_real_f, LL_est_f, Time_s_f) %>%
     t() %>%
     as.data.frame()
 
@@ -330,7 +335,7 @@ run_and_save_example <- function(example_num, real_params) {
   )
 
   filename_tex <- paste0(
-    "figuras1/sa_weibull_results_exemplo",
+    "figuras/sa_weibull_results_exemplo",
     example_num,
     ".tex"
   )
@@ -354,9 +359,6 @@ print(paste(
   "---"
 ))
 results_ex1 <- run_and_save_example(1, real_params_ex1)
-
-print(results_ex1)
-
 
 # Exemplo 2: theta = (2, 3, 4)
 real_params_ex2 <- c(3, 5, 7)
