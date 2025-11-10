@@ -147,7 +147,7 @@ run_and_save_example_gmm <- function(example_num, real_params) {
     mutate(facet_label = paste(panel, "Sample size:", N_sample))
   
   plot_convergence <- ggplot(plot_df, aes(x = eval, y = -energy)) +
-    geom_line(color = "darkred", size = 0.2) +
+    geom_line(color = "red", size = 0.2) +
     facet_wrap(~facet_label, scales = "free", ncol = 2) +
     labs(
       title = paste0("Convergência SA - Mistura Normal (Exemplo ", example_num, ")"),
