@@ -12,10 +12,10 @@ library(xtable)
 caminho <- paste0(getwd(), "/Seminário")
 
 # Criação da Pasta para Figuras
-if (!dir.exists("figuras")) {
-  dir.create("figuras")
+if (!dir.exists("figuras1")) {
+  dir.create("figuras1")
 }
-print("Pasta 'figuras/' verificada/criada.")
+print("Pasta 'figuras1/' verificada/criada.")
 set.seed(20252) # Para reprodutibilidade
 
 # --- 2. FUNÇÕES BASE (WEIBULL 3P E SA) ---
@@ -35,9 +35,9 @@ loglik_weibull3 <- function(params, x) {
   ll <- length(x) * (log(b) - log(g)) + sum((b - 1) * log(z) - (z^b))
 
   # Incluindo a verificação de NaN/NA para robustez
-  #  if (is.nan(ll) || is.na(ll)) {
-  #    return(-Inf)
-  #  }
+  if (is.nan(ll) || is.na(ll)) {
+    return(-Inf)
+  }
 
   return(ll)
 }
@@ -248,7 +248,7 @@ run_and_save_example <- function(example_num, real_params) {
     )
 
   filename_png <- paste0(
-    "figuras/sa_weibull_convergencia_exemplo",
+    "figuras1/sa_weibull_convergencia_exemplo",
     example_num,
     ".png"
   )
@@ -330,7 +330,7 @@ run_and_save_example <- function(example_num, real_params) {
   )
 
   filename_tex <- paste0(
-    "figuras/sa_weibull_results_exemplo",
+    "figuras1/sa_weibull_results_exemplo",
     example_num,
     ".tex"
   )

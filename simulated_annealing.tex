@@ -182,40 +182,14 @@
 	 \end{itemize}
 	
 	\end{frame}
- \noindent
- {\color{red}
-\begin{verbatim}
- simulated_annealing <- function(f, S0, T0, L, alpha, T_min) {
-    T <- T0; S <- S0
-    S_star <- S0; f_S <- f(S)
-    f_S_star <- f_S
-    while (T > T_min) {
-        for (n in 1:L) {
-            S_n <- gerar_vizinho(S) 
-            f_S_n <- f(S_n); Delta <- f_S_n - f_S
-            if (Delta <= 0) {
-                S <- S_n; f_S <- f_S_n
-            } else {
-                p <- exp(-Delta / T)
-                if (runif(1) < p) {
-                    S <- S_n; f_S <- f_S_n
-                }}}
-        if (f_S < f_S_star) {
-            S_star <- S; f_S_star <- f_S
-        }
-        T <- T * alpha
-    } 
-    return(list(best_solution = S_star, best_cost = f_S_star))}
 
-\end{verbatim}
-	}
 	\begin{frame}
 	 Por ser um algoritmo meta-heurístico, urge a importância de o mesmo ter a possibilidade de aceitar uma solução pior, evitando que o algoritmo caia em um máximo local e permaneça por lá. Claramente a probabilidade de aceitar uma pior solução diminui na mesma medida que a temperatura cai em cada um dos outros ciclos. A performance do algoritmo portanto é definida dentro de parâmetros de controle, sendo eles:
 	\begin{itemize}
 	\item A temperatura inicial ($T_0$) deve ser grande o suficiente para que na primeira iteração do algoritmo,a probabilidade de aceitação de um cenário ruim seja, pelo menos 80\%;
 	\item É utilizada a função de redução, sendo esta geométrica comprrendida por: $T_i = CT_{i-1}$, onde $C<1$, constante e se encontra usualmente entre 0.75 e 0.95;
 	\item O tamanho de cada nível de temperatura determina o número de soluções geradas em uma certa temperatura T;
-	\item O critério de parada define quando o sistema encontrou o nível de eneergia desejado. Em suma, isso define:
+	\item O critério de parada define quando o sistema encontrou o nível de energia desejado. Em suma, isso define:
 	\begin{itemize}
 	 \item O total de números de soluções geradas.
 	 \item A temperatura a cada nível de energia desejado.
@@ -273,7 +247,7 @@
  \begin{frame}
  \begin{tabular}{|c|p{7.5cm}|}
   \hline
-  6.3.2.1 & \textbf{Se} $u < e^{\frac{(F_0 - F)}{T}}$ (Aceitação Probabilística):
+  6.3.2.1 & \textbf{Se} $u < e^{\frac{(L_0 - L)}{T}}$ (Aceitação Probabilística):
             \[ a \leftarrow a_1, b \leftarrow b_1, c \leftarrow c_1 \] \\
         \hline
         \multicolumn{2}{|c|}{(Fim do Loop Interno)} \\
@@ -317,30 +291,41 @@ loglik_weibull3 <- function(params, x) {
 	\noindent
 	{\color{blue} \footnotesize
 	 	\begin{verbatim}
-	propose_neighbor <- function(curr, x, sds = c(0.1, 0.1, 0.1)) {
+propose_neighbor <- function(curr, x, sds = c(0.1, 0.1, 0.1)) {
   attempt <- 0
   min_x <- min(x)
+
   repeat {
     attempt <- attempt + 1
+
     b1 <- curr[1] + rnorm(1, mean = 0, sd = sds[1])
     g1 <- curr[2] + rnorm(1, mean = 0, sd = sds[2])
     c1 <- curr[3] + rnorm(1, mean = 0, sd = sds[3])
+
     if (b1 <= 0) {
       b1 <- abs(b1) + 1e-6
     }
     if (g1 <= 0) {
       g1 <- abs(g1) + 1e-6
     }
+
+    
     if (c1 < min_x - 1e-8) {
       return(c(b1, g1, c1))
     }
+
     if (attempt > 50) {
       sds[3] <- sds[3] * 1.5
     }
+
     if (attempt > 1000) {
-      return(c(b1, g1, min_x - 1e-6))}}}
-      
-      sa_weibull3 <- function(
+      return(c(b1, g1, min_x - 1e-6))
+    }
+  }
+}
+
+# Algoritmo Simulated Annealing para Maximização
+sa_weibull3 <- function(
   x,
   init = NULL,
   T0 = 100,
@@ -350,37 +335,27 @@ loglik_weibull3 <- function(params, x) {
   sds = c(0.1, 0.1, 0.1)
 ) {
   n <- length(x)
-  # Lógica de Inicialização (Simplificada)
+
+  
   if (is.null(init)) {
-    c0 <- min(x) - 0.1 * sd(x)
-    if (c0 >= min(x)) {
-      c0 <- min(x) - 1e-3
-    }
-    y <- x - c0
-    y[y <= 0] <- min(y[y > 0]) * 0.1
-    y_sorted <- sort(y)
-    prob_rank <- (1:n) / (n + 1)
-    ln_y <- log(y_sorted)
-    ln_ln <- log(-log(1 - prob_rank))
-    fit <- try(lm(ln_ln ~ ln_y), silent = TRUE)
-    if (inherits(fit, "try-error")) {
-      init <- c(1.5, sd(x), min(x) - 0.1)
-    } else {
-      b0 <- fit$coefficients[2]
-      g0 <- exp(-fit$coefficients[1] / b0)
-      init <- c(b0, g0, c0)
-      if (
-        !is.finite(b0) || !is.finite(g0) || !is.finite(c0) || b0 <= 0 || g0 <= 0
-      ) {
-        init <- c(1.5, sd(x), min(x) - 0.1)
-      }
-    }
+    
+    init <- c(1, sd(x), min(x) - 0.1)
   }
+
   curr <- init
   curr_ll <- loglik_weibull3(curr, x)
   best <- curr
   best_ll <- curr_ll
   T <- T0
+
+  # 
+  while (curr_ll == -Inf) {
+    curr <- propose_neighbor(curr, x, sds = sds * 10) 
+    curr_ll <- loglik_weibull3(curr, x)
+    best <- curr
+    best_ll <- curr_ll
+  }
+
   history <- data.frame(eval = 1, ll = curr_ll)
   eval_count <- 1
 
@@ -389,6 +364,7 @@ loglik_weibull3 <- function(params, x) {
     for (i in 1:L) {
       prop <- propose_neighbor(curr, x, sds = sds)
       prop_ll <- loglik_weibull3(prop, x)
+
       if (prop_ll > curr_ll) {
         curr <- prop
         curr_ll <- prop_ll
@@ -400,14 +376,18 @@ loglik_weibull3 <- function(params, x) {
           curr_ll <- prop_ll
         }
       }
+
       if (curr_ll > best_ll) {
         best <- curr
         best_ll <- curr_ll
       }
+
       eval_count <- eval_count + 1
       history <- rbind(history, data.frame(eval = eval_count, ll = curr_ll))
     }
-    T <- cooling_rate * T}
+    T <- cooling_rate * T
+  }
+
   return(list(
     best_params = best,
     best_ll = best_ll,
@@ -415,9 +395,72 @@ loglik_weibull3 <- function(params, x) {
     evals = eval_count
   ))
 }
+
+# Função de geração SA
+run_and_save_example <- function(example_num, real_params) {
+  sample_sizes <- c(2500, 1000, 500, 100)
+  T0_val <- 100
+  Tf_val <- 0.001
+  cooling_rate_val <- 0.99
+  L_val <- 5
+
+  results_table <- data.frame(
+    "N" = integer(),
+    "beta_est" = numeric(),
+    "eta_est" = numeric(),
+    "gamma_est" = numeric(),
+    "LL_real" = numeric(),
+    "LL_est" = numeric(),
+    "Time_s" = numeric()
+  )
+  plot_data <- list()
+
+  # Loop pontual
+  for (N in sample_sizes) {
+    # 1. Geração da Amostra (Weibull 3P)
+    data_x <- rweibull(N, shape = real_params[1], scale = real_params[2]) +
+      real_params[3]
+
+    # LL - Parametro Real
+    ll_real <- loglik_weibull3(real_params, data_x)
+
+    # Execução SA
+    start_time <- Sys.time()
+
+    # Inicialização (Passada explicitamente para run_and_save_example)
+    init_params <- c(1.5, sd(data_x), min(data_x) - 0.1)
+
+    sa_result <- sa_weibull3(
+      x = data_x,
+      init = init_params,
+      T0 = T0_val,
+      Tf = Tf_val,
+      cooling_rate = cooling_rate_val,
+      L = L_val
+    )
+    end_time <- Sys.time()
+    run_time <- as.numeric(difftime(end_time, start_time, units = "secs"))
+
+    # Armazenamento
+    best_p <- sa_result$best_params
+    best_ll <- sa_result$best_ll
+
+    new_row <- data.frame(
+      "N" = N,
+      "beta_est" = best_p[1],
+      "eta_est" = best_p[2],
+      "gamma_est" = best_p[3],
+      "LL_real" = ll_real,
+      "LL_est" = best_ll,
+      "Time_s" = run_time
+    )
+    results_table <- rbind(results_table, new_row) #{...}
+    }
  
     \end{verbatim}
 	}
+
+\section{Resultados}
 
 \begin{frame}[fragile] % Use [fragile] se o seu slide tiver muito código R ou comandos especiais
 \frametitle{Resultados da Estimação por Recozimento Simulado}
@@ -438,17 +481,17 @@ loglik_weibull3 <- function(params, x) {
         \textbf{Measure} & \textbf{2500} & \textbf{1000} & \textbf{500} & \textbf{100} \\
         \midrule
         % Linha de parâmetros estimados, corrigindo os comandos de símbolo
-        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (1.9829, 2.0162, 2.0177) & (1.9374, 2.0165, 1.9982) & (2.0222, 1.9569, 2.0512) & (1.8491, 2.0029, 2.1073) \\
+        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (1.9991, 2.0158, 2.0138) & (1.9777, 2.0351, 1.9797) & (2.1459, 2.0908, 1.9071) & (2.3615, 2.1445, 1.8567) \\
         % Likelihood nos valores reais
-        Likelihood function at the real values & -3254.7346 & -1326.3027 & -631.2297 & -136.3167 \\
+        Likelihood function at the real values & -3254.7346 & -1311.5570 & -646.9332 & -125.4270 \\
         % Likelihood nos valores estimados
-        Likelihood function at the estimated value & -3252.9574 & -1324.7026 & -629.9147 & -135.1983 \\
+        Likelihood function at the estimated value & -3252.9872 & -1311.0612 & -644.8159 & -124.0860 \\
         % Tempo de execução
-        Run time (s) & 7.2342 & 6.0214 & 5.9584 & 6.8564 \\
+        Run time (s) & 4.7858 & 2.9836 & 2.3574 & 2.1606 \\
         \bottomrule
     \end{tabular}%
 }
-\caption{Tabela de Resultados para o Exemplo 1: Weibull (2, 2, 2) via SA}
+\caption{Tabela de Resultados para o Exemplo 1: Weibull (2, 2, 2) via Simulated Annealing}
 \label{tab:sa_weibull_results_ex1}
 \end{table}
 
@@ -481,18 +524,18 @@ loglik_weibull3 <- function(params, x) {
         % Cabeçalhos das colunas
         \textbf{Measure} & \textbf{2500} & \textbf{1000} & \textbf{500} & \textbf{100} \\
         \midrule
-        % Linha de parâmetros estimados
-        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (2.9609, 4.9583, 7.0445) & (2.9254, 4.8563, 7.0478) & (3.2833, 5.1335, 6.8745) & (2.7800, 4.5803, 7.3323) \\
+        % Linha de parâmetros estimados, corrigindo os comandos de símbolo
+        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (2.9692, 4.8821, 7.0640) & (2.6933, 4.6690, 7.2710) & (2.8394, 4.5196, 7.3546) & (2.1266, 3.6834, 8.1256) \\
         % Likelihood nos valores reais
-        Likelihood function at the real values & -4741.6982 & -1889.3753 & -927.9355 & -186.2723 \\
+        Likelihood function at the real values & -4705.6693 & -1917.4969 & -922.3498 & -188.0940 \\
         % Likelihood nos valores estimados
-        Likelihood function at the estimated value & -4741.5966 & -1887.9379 & -926.3573 & -185.9554 \\
+        Likelihood function at the estimated value & -4704.4097 & -1915.2503 & -919.5619 & -185.9989 \\
         % Tempo de execução
-        Run time (s) & 6.6395 & 6.0145 & 5.7210 & 5.6069 \\
+        Run time (s) & 3.5846 & 2.8512 & 3.0746 & 2.8736 \\
         \bottomrule
     \end{tabular}%
 }
-\caption{Tabela de Resultados para o Exemplo 2: Weibull (3, 5, 7) via SA}
+\caption{Tabela de Resultados para o Exemplo 2: Weibull (3, 5, 7) via Simulated Annealing}
 \label{tab:sa_weibull_results_ex2}
 \end{table}
 
@@ -514,24 +557,30 @@ loglik_weibull3 <- function(params, x) {
 
 \begin{table}[ht]
 \centering
-% 1. Aplica o menor tamanho de fonte (opcional, dependendo do conteúdo)
+% Opcional: Reduz o tamanho da fonte para caber se for usado em slide
 \tiny
-% 2. Usa resizebox para forçar a largura total da tabela (opcional, dependendo do conteúdo)
+% Opcional: Força a tabela a ter a largura da linha
 \resizebox{\linewidth}{!}{%
     \begin{tabular}{lrrrr} % Formato {lrrrr} para 1 coluna de rótulo e 4 de dados
         \toprule
-        \multicolumn{1}{c}{\textbf{Weibull parameters}} & \multicolumn{4}{c}{\textbf{(8, 4, 6)}}\\\\ % Duas quebras de linha para simular o espaçamento do primeiro slide
+        % Parâmetros (8, 4, 6)
+        \multicolumn{1}{c}{\textbf{Weibull parameters}} & \multicolumn{4}{c}{\textbf{(8, 4, 6)}}\\\\
         \hline
+        % Cabeçalhos das colunas
         \textbf{Measure} & \textbf{2500} & \textbf{1000} & \textbf{500} & \textbf{100} \\
         \midrule
-        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (7.3183, 3.7274, 6.2453) & (7.4927, 3.8168, 6.2023) & (5.9484, 3.0631, 6.9459) & (4.2302, 1.9655, 8.0114) \\
-        Likelihood function at the real values & -2062.5242 & -831.9918 & -411.7484 & -70.3477 \\
-        Likelihood function at the estimated value & -2059.4080 & -830.5465 & -410.4577 & -67.7416 \\
-        Run time (s) & 6.6368 & 6.0142 & 6.4628 & 5.9164 \\
+        % Linha de parâmetros estimados, corrigindo os comandos de símbolo
+        Estimated parameters ($\beta$, $\eta$, $\gamma$) & (7.5211, 3.7231, 6.2683) & (8.5488, 4.0806, 5.9406) & (7.6652, 3.8755, 6.1333) & (4.3496, 2.1853, 7.8769) \\
+        % Likelihood nos valores reais
+        Likelihood function at the real values & -1993.8436 & -770.9186 & -409.9350 & -78.5454 \\
+        % Likelihood nos valores estimados
+        Likelihood function at the estimated value & -1992.6522 & -768.5618 & -409.7919 & -75.4730 \\
+        % Tempo de execução
+        Run time (s) & 3.6161 & 3.0264 & 2.5860 & 2.3906 \\
         \bottomrule
     \end{tabular}%
 }
-\caption{Tabela de Resultados para o Exemplo 3: Weibull (8, 4, 6) via SA}
+\caption{Tabela de Resultados para o Exemplo 3: Weibull (8, 4, 6) via Simulated Annealing}
 \label{tab:sa_weibull_results_ex3}
 \end{table}
 \end{frame}
@@ -543,6 +592,28 @@ loglik_weibull3 <- function(params, x) {
 			\centering
 			\includegraphics[width=0.8\textwidth]{sa_weibull_convergencia_exemplo3.png}
 		\end{figure}
+\end{frame}
+
+\section{Referências Bibliográficas}
+
+\begin{frame}
+    \frametitle{Referências}
+    
+    \begin{itemize}
+        
+        \item ABBasi, B.; EshrAsh Jahromi, A. H.; ARKAT, J.; Hosseinkouchack, M. \textbf{Estimating the parameters of Weibull distribution using simulated annealing algorithm}. Applied Mathematics and Computation, v. 183, p. 85-93, 2006.
+        
+        \item ALBERT, C.; KÜNSCH, H. R.; SCHEIDEGGER, A. \textbf{A simulated annealing approach to approximate Bayes computations}. Stat Comput, v. 25, n. 6, p. 1217–1232, 2015.
+        
+        \item LEIJOTO, H. D. \textbf{Avaliação de Mecanismo Probabilístico de Cooling Schedule para o Algoritmo Simulated Annealing}. Monografia de Graduação, Departamento de Estatística, Universidade Federal de Ouro Preto (UFOP), 2024.
+        
+        \item LUNA, A. H. \textbf{Introdução aos Métodos de Monte Carlo Avançados}. Relatório Técnico RTE\_01\_2019, Departamento de Estatística-UFMG.
+        
+        \item Lee, Sangmin e Seoung Bum Kim: \textbf{Parallel simulated annealing with a greedy algorithmfor Bayesian network structure learning}. IEEE Transactions on Knowledge and Data Engineering,2019.
+        
+        \item Shen, Yadi, Yingchao Dong, Xiaoxia Han, Jinde Wu, Kun Xue, Meizhu Jin, GangXie e Xinying Xu: \textbf{Prediction model for methanation reaction conditions based on a state transition simulated annealing algorithm optimized extreme learning machine}. International Journal of Hydrogen Energy.
+        \item Spinellis, D, C Papadopoulos e J M Smith: \textbf{Large production line optimization using simulated annealing}. International Journal of Production Research, 2000.
+    \end{itemize}
 \end{frame}
 	
 	
