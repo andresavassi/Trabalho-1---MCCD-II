@@ -187,7 +187,7 @@
 	 Por ser um algoritmo meta-heurístico, urge a importância de o mesmo ter a possibilidade de aceitar uma solução pior, evitando que o algoritmo caia em um máximo local e permaneça por lá. Claramente a probabilidade de aceitar uma pior solução diminui na mesma medida que a temperatura cai em cada um dos outros ciclos. A performance do algoritmo portanto é definida dentro de parâmetros de controle, sendo eles:
 	\begin{itemize}
 	\item A temperatura inicial ($T_0$) deve ser grande o suficiente para que na primeira iteração do algoritmo,a probabilidade de aceitação de um cenário ruim seja, pelo menos 80\%;
-	\item É utilizada a função de redução, sendo esta geométrica comprrendida por: $T_i = CT_{i-1}$, onde $C<1$, constante e se encontra usualmente entre 0.75 e 0.95;
+	\item É utilizada a função de redução, sendo esta geométrica compreendida por: $T_i = CT_{i-1}$, onde $C<1$, constante e se encontra usualmente entre 0.75 e 0.95;
 	\item O tamanho de cada nível de temperatura determina o número de soluções geradas em uma certa temperatura T;
 	\item O critério de parada define quando o sistema encontrou o nível de energia desejado. Em suma, isso define:
 	\begin{itemize}
@@ -383,7 +383,8 @@ sa_weibull3 <- function(
       }
 
       eval_count <- eval_count + 1
-      history <- rbind(history, data.frame(eval = eval_count, ll = curr_ll))
+      history <- rbind(history, data.frame(eval = eval_count, 
+      ll = curr_ll))
     }
     T <- cooling_rate * T
   }
@@ -395,7 +396,6 @@ sa_weibull3 <- function(
     evals = eval_count
   ))
 }
-
 # Função de geração SA
 run_and_save_example <- function(example_num, real_params) {
   sample_sizes <- c(2500, 1000, 500, 100)
@@ -403,6 +403,7 @@ run_and_save_example <- function(example_num, real_params) {
   Tf_val <- 0.001
   cooling_rate_val <- 0.99
   L_val <- 5
+
 
   results_table <- data.frame(
     "N" = integer(),
@@ -412,7 +413,6 @@ run_and_save_example <- function(example_num, real_params) {
     "LL_real" = numeric(),
     "LL_est" = numeric()
   )
-  
   for (N in sample_sizes) {
 
     data_x <- rweibull(N, shape = real_params[1], scale = real_params[2]) 
