@@ -6,10 +6,9 @@ library(dplyr)
 library(tidyr)
 library(gridExtra)
 library(xtable)
-# É bom ter MASS para sd() e inicialização, mas não é estritamente necessário para este erro
-# library(MASS)
 
 caminho <- paste0(getwd(), "/Seminário")
+
 
 # Criação da Pasta para Figuras
 if (!dir.exists("figuras")) {
@@ -20,7 +19,7 @@ set.seed(20252) # Para reprodutibilidade
 
 # --- 2. FUNÇÕES BASE (WEIBULL 3P E SA) ---
 
-# Função de Log-Verossimilhança Weibull 3P (CORRIGIDA NA VERSÃO ANTERIOR PARA NaN/NA)
+# Função de Log-Verossimilhança Weibull 3P
 loglik_weibull3 <- function(params, x) {
   b <- params[1] # beta (forma)
   g <- params[2] # eta (escala)
@@ -33,12 +32,6 @@ loglik_weibull3 <- function(params, x) {
   z <- (x - c) / g
   # Fórmula Log-Verossimilhança (Eq 7 do artigo)
   ll <- length(x) * (log(b) - log(g)) + sum((b - 1) * log(z) - (z^b))
-
-  # Incluindo a verificação de NaN/NA para robustez
-  #  if (is.nan(ll) || is.na(ll)) {
-  #    return(-Inf)
-  #  }
-
   return(ll)
 }
 
@@ -61,7 +54,6 @@ propose_neighbor <- function(curr, x, sds = c(0.1, 0.1, 0.1)) {
       g1 <- abs(g1) + 1e-6
     }
 
-    # Condição: c1 deve ser menor que o mínimo da amostra
     if (c1 < min_x - 1e-8) {
       return(c(b1, g1, c1))
     }
@@ -88,10 +80,37 @@ sa_weibull3 <- function(
 ) {
   n <- length(x)
 
-  # Se init não for fornecido, inicializa com valores razoáveis
+  # Lógica de Inicialização (Estimativa Rápida por Regressão Log-Log)
   if (is.null(init)) {
-    # Inicialização simplificada
-    init <- c(1, sd(x), min(x) - 0.1)
+    c0 <- min(x) - 0.1 * sd(x)
+    if (c0 >= min(x)) {
+      c0 <- min(x) - 1e-3
+    }
+
+    y <- x - c0
+    y[y <= 0] <- min(y[y > 0]) * 0.1
+
+    y_sorted <- sort(y)
+    prob_rank <- (1:n) / (n + 1)
+
+    ln_y <- log(y_sorted)
+    ln_ln <- log(-log(1 - prob_rank))
+
+    fit <- try(lm(ln_ln ~ ln_y), silent = TRUE)
+
+    if (inherits(fit, "try-error")) {
+      init <- c(1.5, sd(x), min(x) - 0.1)
+    } else {
+      b0 <- fit$coefficients[2]
+      g0 <- exp(-fit$coefficients[1] / b0)
+      init <- c(b0, g0, c0)
+
+      if (
+        !is.finite(b0) || !is.finite(g0) || !is.finite(c0) || b0 <= 0 || g0 <= 0
+      ) {
+        init <- c(1.5, sd(x), min(x) - 0.1)
+      }
+    }
   }
 
   curr <- init
@@ -99,14 +118,6 @@ sa_weibull3 <- function(
   best <- curr
   best_ll <- curr_ll
   T <- T0
-
-  # Garante que a inicialização não seja -Inf
-  while (curr_ll == -Inf) {
-    curr <- propose_neighbor(curr, x, sds = sds * 10) # Tenta um vizinho mais distante
-    curr_ll <- loglik_weibull3(curr, x)
-    best <- curr
-    best_ll <- curr_ll
-  }
 
   history <- data.frame(eval = 1, ll = curr_ll)
   eval_count <- 1
@@ -179,13 +190,8 @@ run_and_save_example <- function(example_num, real_params) {
 
     # 3. Execução do Simulated Annealing
     start_time <- Sys.time()
-
-    # Inicialização (Passada explicitamente para run_and_save_example)
-    init_params <- c(1.5, sd(data_x), min(data_x) - 0.1)
-
     sa_result <- sa_weibull3(
       x = data_x,
-      init = init_params,
       T0 = T0_val,
       Tf = Tf_val,
       cooling_rate = cooling_rate_val,
@@ -277,8 +283,7 @@ run_and_save_example <- function(example_num, real_params) {
       LL_est_f = sprintf("%.4f", LL_est),
       Time_s_f = sprintf("%.4f", Time_s)
     ) %>%
-    # CORREÇÃO AQUI: Especificar dplyr::select para evitar conflito com outros pacotes
-    dplyr::select(N, Estimated_Parameters, LL_real_f, LL_est_f, Time_s_f) %>%
+    select(N, Estimated_Parameters, LL_real_f, LL_est_f, Time_s_f) %>%
     t() %>%
     as.data.frame()
 
@@ -355,9 +360,6 @@ print(paste(
 ))
 results_ex1 <- run_and_save_example(1, real_params_ex1)
 
-print(results_ex1)
-
-
 # Exemplo 2: theta = (2, 3, 4)
 real_params_ex2 <- c(3, 5, 7)
 print(paste(
@@ -381,17 +383,13 @@ print(
 )
 
 
-
-
-### MOnte Carlo para estudo
-
 run_example <- function(real_params) {
   sample_sizes <- 2500
   T0_val <- 100
   Tf_val <- 0.001
   cooling_rate_val <- 0.99
   L_val <- 5
-  
+
   results_table <- data.frame(
     "N" = integer(),
     "beta_est" = numeric(),
@@ -401,22 +399,22 @@ run_example <- function(real_params) {
     "LL_est" = numeric(),
     "Time_s" = numeric()
   )
-  
+
   # Loop para rodar o SA para cada tamanho de amostra
   for (N in sample_sizes) {
     # 1. Geração da Amostra (Weibull 3P)
     data_x <- rweibull(N, shape = real_params[1], scale = real_params[2]) +
       real_params[3]
-    
+
     # 2. Log-Verossimilhança com os Parâmetros Reais
     ll_real <- loglik_weibull3(real_params, data_x)
-    
+
     # 3. Execução do Simulated Annealing
     start_time <- Sys.time()
-    
+
     # Inicialização (Passada explicitamente para run_and_save_example)
     init_params <- c(1.5, sd(data_x), min(data_x) - 0.1)
-    
+
     sa_result <- sa_weibull3(
       x = data_x,
       init = init_params,
@@ -427,11 +425,11 @@ run_example <- function(real_params) {
     )
     end_time <- Sys.time()
     run_time <- as.numeric(difftime(end_time, start_time, units = "secs"))
-    
+
     # 4. Armazenamento dos Resultados
     best_p <- sa_result$best_params
     best_ll <- sa_result$best_ll
-    
+
     new_row <- data.frame(
       "N" = N,
       "beta_est" = best_p[1],
@@ -443,39 +441,34 @@ run_example <- function(real_params) {
     )
     results_table <- rbind(results_table, new_row)
     return(results_table)
-  }}
+  }
+}
 
 
-
-estudo_mc <- function(n = 2500, real_params, m = 500) {
-  
+estudo_mc <- function(n = 2500, real_params, m = 100) {
   beta_est <- numeric(m)
   eta_est <- numeric(m)
   gamma_est <- numeric(m)
-  
-  for(i in 1:m){
-    
-    
+
+  for (i in 1:m) {
     # Rodar EM
     est <- run_example(real_params)
-    
-    
+
     beta_est[i] <- tail(est$beta, 1)
     eta_est[i] <- tail(est$eta, 1)
     gamma_est[i] <- tail(est$gamma, 1)
   }
-  
+
   return(data.frame(beta_est, eta_est, gamma_est))
 }
 
 
-av1 <- estudo_mc(real_params = c(2,2,2))
-av2 <- estudo_mc(real_params = c(3,5,7))
-av3 <- estudo_mc(real_params = c(8,4,6))
+av1 <- estudo_mc(real_params = c(2, 2, 2))
+av2 <- estudo_mc(real_params = c(3, 5, 7))
+av3 <- estudo_mc(real_params = c(8, 4, 6))
 
 
-
-avaliacao <- function(av, real_params){
+avaliacao <- function(av, real_params) {
   data.frame(
     beta_verdadeiro = real_params[1],
     beta_medio = mean(av$beta_est),
@@ -491,19 +484,28 @@ avaliacao <- function(av, real_params){
 
 
 tab_resultados <- rbind(
-  avaliacao(av1, c(2,2,2)),
-  avaliacao(av2, c(3,5,7)),
-  avaliacao(av3, c(8,4,6))
+  avaliacao(av1, c(2, 2, 2)),
+  avaliacao(av2, c(3, 5, 7)),
+  avaliacao(av3, c(8, 4, 6))
 )
 
 
+colnames(tab_resultados) <- c(
+  "\beta Verdadeiro",
+  "\beta Médio",
+  "\beta Desvio Padrão",
+  "\eta Verdadeiro",
+  "\eta Médio",
+  "\eta Desvio Padrão",
+  "\gamma Verdadeiro",
+  "\gamma Médio",
+  "\gamma Desvio Padrão"
+)
 
-colnames(tab_resultados) <- c("beta Verdadeiro", "beta Médio", "beta Desvio Padrão",
-                              "eta Verdadeiro", "eta Médio", "eta Desvio Padrão",
-                              "gamma Verdadeiro", "gamma Médio", "gamma Desvio Padrão")
-
-kable(tab_resultados,
-      digits = 4,
-      align = "c",
-      caption = "Avaliação dos Estimadores - Método de Monte Carlo") %>%
+kable(
+  tab_resultados,
+  digits = 4,
+  align = "c",
+  caption = "Avaliação dos Estimadores - Método de Monte Carlo"
+) %>%
   kable_styling(bootstrap_options = "striped")
